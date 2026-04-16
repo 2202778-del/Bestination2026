@@ -1,0 +1,55 @@
+/* ─── FLATICON-STYLE ICON REFERENCE ─────────────────────────────────────────────
+   
+   Usage Examples:
+   
+   1. FLAT DESIGN ICON BOX (Colorful gradient box with emoji/icon)
+      <div class="icon-flat flat-primary">🏢</div>
+      <div class="icon-flat flat-accent">📱</div>
+      <div class="icon-flat flat-success">✓</div>
+      
+   2. FLAT DESIGN BADGE
+      <span class="badge-flat">New</span>
+      <span class="badge-flat badge-flat-success">Completed</span>
+      
+   3. FLAT DESIGN COLOR VARIANTS
+      .flat-primary   → Maroon gradient (#862334 → #a82d47)
+      .flat-accent    → Blue gradient (#0880AE → #056a94)
+      .flat-success   → Green gradient (#6FCF97 → #4db876)
+      .flat-warning   → Orange gradient (#F2994A → #e07a2f)
+      .flat-error     → Red gradient (#DC1500 → #a80c00)
+      .flat-gold      → Gold gradient (#FFC553 → #ffb333)
+      
+   4. FLAT DESIGN SIZE VARIANTS
+      .icon-flat           → 48x48px (default)
+      .icon-flat.flat-sm   → 36x36px (small)
+      .icon-flat.flat-lg   → 64x64px (large)
+      .icon-flat.flat-xl   → 80x80px (extra large)
+      
+   5. CARD ICON (Larger icon for hero/featured sections)
+      <div class="card-flat-icon">🎪</div>
+      
+   6. FLAT TEXT COLORS
+      <span class="flat-text-primary">Maroon text</span>
+      <span class="flat-text-accent">Blue text</span>
+      <span class="flat-text-success">Green text</span>
+
+─────────────────────────────────────────────────────────────────────────────────── */
+
+/* Icon mapping suggestions for common uses:
+
+   Registration:     📝 (📋 or 📄)
+   User/Profile:     👤 (👨 or 👩)
+   Booth/Building:   🏢 (🏭 or 🏪)
+   QR Scanner:       📱 (📲 or 🔍)
+   Check/Done:       ✓ (✅ or 🎉)
+   Download:         ⬇️ (📥 or 💾)
+   Upload:           ⬆️ (📤 or 💿)
+   Settings:         ⚙️ (🔧 or ⚡)
+   Home:             🏠 (🏡 or 🏘️)
+   Lock/Security:    🔒 (🔐 or 🛡️)
+   Email:            ✉️ (📧 or 📨)
+   Phone:            ☎️ (📞 or 📱)
+   Delete:           🗑️ (❌ or 🚫)
+   Edit:             ✏️ (🖊️ or 📝)
+
+*/

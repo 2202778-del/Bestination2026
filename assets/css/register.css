@@ -1,0 +1,87 @@
+/* ─── Register Page — Modern Glassmorphism ──────────────────────────────────── */
+
+.register-page {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px 16px 40px;
+    background: linear-gradient(135deg, #862334 0%, #c53c54 50%, #e8587a 100%);
+    animation: fadeIn 0.5s ease;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid rgba(134, 35, 52, 0.15);
+}
+
+.register-header .event-logo {
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.register-header .logo-main {
+    color: #862334;
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+
+.register-header .logo-year {
+    color: #FFC553;
+    letter-spacing: 2px;
+}
+
+.register-subtitle {
+    color: #555555;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+#submitBtn {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #862334 0%, #a82d47 100%);
+    font-size: 1.05rem;
+    padding: 16px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(134, 35, 52, 0.3);
+}
+
+#submitBtn:hover {
+    background: linear-gradient(135deg, #a82d47 0%, #862334 100%);
+    box-shadow: 0 8px 25px rgba(134, 35, 52, 0.4);
+    transform: translateY(-2px);
+}
+
+#submitBtn:active {
+    transform: translateY(0);
+}
+
+.register-footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888888;
+    font-family: 'Poppins', sans-serif;
+}

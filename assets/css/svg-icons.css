@@ -1,0 +1,512 @@
+/* ─── SVG Icons Styling ─────────────────────────────────────────────────────── */
+/* Modern iconography with SVG support for better control and performance */
+
+/* ─── Base Icon Styles ──────────────────────────────────────────────────────── */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: currentColor;
+}
+
+.icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1.5;
+}
+
+/* Icon size variants */
+.icon-xs { width: 16px; height: 16px; }
+.icon-sm { width: 20px; height: 20px; }
+.icon-md { width: 24px; height: 24px; }
+.icon-lg { width: 32px; height: 32px; }
+.icon-xl { width: 40px; height: 40px; }
+.icon-2xl { width: 48px; height: 48px; }
+
+/* Icon colors */
+.icon-primary { color: #862334; }
+.icon-accent { color: #0880AE; }
+.icon-success { color: #6FCF97; }
+.icon-warning { color: #F2994A; }
+.icon-error { color: #DC1500; }
+.icon-white { color: #FFFFFF; }
+.icon-muted { color: #888888; }
+
+/* Icon with background circle */
+.icon-with-bg {
+    background: rgba(134, 35, 52, 0.1);
+    border-radius: 50%;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.icon-with-bg:hover {
+    background: rgba(134, 35, 52, 0.2);
+    transform: scale(1.1);
+}
+
+.icon-with-bg.accent-bg { background: rgba(8, 128, 174, 0.1); }
+.icon-with-bg.accent-bg:hover { background: rgba(8, 128, 174, 0.2); }
+
+.icon-with-bg.success-bg { background: rgba(111, 207, 151, 0.1); }
+.icon-with-bg.success-bg:hover { background: rgba(111, 207, 151, 0.2); }
+
+.icon-with-bg.error-bg { background: rgba(220, 21, 0, 0.1); }
+.icon-with-bg.error-bg:hover { background: rgba(220, 21, 0, 0.2); }
+
+.icon-with-bg.warning-bg { background: rgba(242, 153, 74, 0.1); }
+.icon-with-bg.warning-bg:hover { background: rgba(242, 153, 74, 0.2); }
+
+/* Icon button styles */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: #862334;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.icon-btn:hover {
+    background: rgba(134, 35, 52, 0.1);
+    color: #a82d47;
+}
+
+.icon-btn:active {
+    background: rgba(134, 35, 52, 0.2);
+    transform: scale(0.95);
+}
+
+/* Icon button variants */
+.icon-btn.primary { color: #862334; }
+.icon-btn.primary:hover { background: rgba(134, 35, 52, 0.15); }
+
+.icon-btn.accent { color: #0880AE; }
+.icon-btn.accent:hover { background: rgba(8, 128, 174, 0.15); }
+
+.icon-btn.success { color: #6FCF97; }
+.icon-btn.success:hover { background: rgba(111, 207, 151, 0.15); }
+
+.icon-btn.error { color: #DC1500; }
+.icon-btn.error:hover { background: rgba(220, 21, 0, 0.15); }
+
+.icon-btn.white { color: #FFFFFF; }
+.icon-btn.white:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Icon with text in button */
+.btn-with-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-with-icon .icon {
+    flex-shrink: 0;
+}
+
+/* ─── Specific Icon Definitions ─────────────────────────────────────────────── */
+
+/* User icon */
+.icon-user::before { content: "👤"; font-size: 1.2em; }
+
+/* Lock icon */
+.icon-lock::before { content: "🔒"; font-size: 1.2em; }
+
+/* Envelope icon */
+.icon-envelope::before { content: "✉️"; font-size: 1.2em; }
+
+/* Phone icon */
+.icon-phone::before { content: "📞"; font-size: 1.2em; }
+
+/* Checkmark icon */
+.icon-check::before { content: "✅"; font-size: 1.2em; }
+
+/* Close/X icon */
+.icon-close::before { content: "✕"; font-size: 1.2em; }
+
+/* Delete icon */
+.icon-delete::before { content: "🗑️"; font-size: 1.2em; }
+
+/* Delete/Trash icon */
+.icon-trash::before { content: "🗑️"; font-size: 1.2em; }
+
+/* Edit icon */
+.icon-edit::before { content: "✏️"; font-size: 1.2em; }
+
+/* Download icon */
+.icon-download::before { content: "⬇️"; font-size: 1.2em; }
+
+/* Upload icon */
+.icon-upload::before { content: "⬆️"; font-size: 1.2em; }
+
+/* QR Code icon */
+.icon-qr::before { content: "📱"; font-size: 1.2em; }
+
+/* Camera icon */
+.icon-camera::before { content: "📷"; font-size: 1.2em; }
+
+/* Settings icon */
+.icon-settings::before { content: "⚙️"; font-size: 1.2em; }
+
+/* Home icon */
+.icon-home::before { content: "🏠"; font-size: 1.2em; }
+
+/* Back arrow icon */
+.icon-back::before { content: "←"; font-size: 1.2em; font-weight: bold; }
+
+/* Forward arrow icon */
+.icon-forward::before { content: "→"; font-size: 1.2em; font-weight: bold; }
+
+/* Info icon */
+.icon-info::before { content: "ℹ️"; font-size: 1.2em; }
+
+/* Warning icon */
+.icon-warning::before { content: "⚠️"; font-size: 1.2em; }
+
+/* Success/Checkmark circle icon */
+.icon-success-circle::before { content: "✔️"; font-size: 1.2em; }
+
+/* ─── Animation Effects on Icons ────────────────────────────────────────────── */
+
+.icon-spin {
+    animation: spin 1s linear infinite;
+}
+
+.icon-pulse {
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.icon-bounce {
+    animation: float 1.5s ease-in-out infinite;
+}
+
+/* ─── Icon Groups (for toolbars, action menus) ──────────────────────────────── */
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-group.compact {
+    gap: 4px;
+}
+
+.icon-group.spaced {
+    gap: 12px;
+}
+
+/* ─── Inline Icon with Text ────────────────────────────────────────────────── */
+
+.inline-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.inline-icon .icon {
+    flex-shrink: 0;
+}
+
+/* ─── Loading Spinner Icon ──────────────────────────────────────────────────── */
+
+.Loading-spinner::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(134, 35, 52, 0.2);
+    border-top-color: #862334;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ─── Accessibility ────────────────────────────────────────────────────────── */
+
+.icon[aria-hidden="true"] {
+    pointer-events: none;
+}
+
+/* Screen reader only text for icons */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ─── Flaticon-Style Flat Design Icons ──────────────────────────────────────── */
+/* Colorful, minimalist flat design icons (Flaticon aesthetic)                    */
+
+.icon-flat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-flat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Flaticon color variants */
+.icon-flat.flat-primary {
+    background: linear-gradient(135deg, #862334 0%, #a82d47 100%);
+    color: #FFFFFF;
+}
+
+.icon-flat.flat-accent {
+    background: linear-gradient(135deg, #0880AE 0%, #056a94 100%);
+    color: #FFFFFF;
+}
+
+.icon-flat.flat-success {
+    background: linear-gradient(135deg, #6FCF97 0%, #4db876 100%);
+    color: #FFFFFF;
+}
+
+.icon-flat.flat-warning {
+    background: linear-gradient(135deg, #F2994A 0%, #e07a2f 100%);
+    color: #FFFFFF;
+}
+
+.icon-flat.flat-error {
+    background: linear-gradient(135deg, #DC1500 0%, #a80c00 100%);
+    color: #FFFFFF;
+}
+
+.icon-flat.flat-gold {
+    background: linear-gradient(135deg, #FFC553 0%, #ffb333 100%);
+    color: #862334;
+}
+
+.icon-flat.flat-info {
+    background: linear-gradient(135deg, #0880AE 0%, #056a94 100%);
+    color: #FFFFFF;
+}
+
+/* Flaticon size variants */
+.icon-flat.flat-sm {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+}
+
+.icon-flat.flat-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    font-size: 2.2rem;
+}
+
+.icon-flat.flat-xl {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    font-size: 3rem;
+}
+
+/* Flat design icon sets (emoji-based for simplicity) */
+.flat-booth { background: linear-gradient(135deg, #FFC553 0%, #ffb333 100%); }
+.flat-user { background: linear-gradient(135deg, #0880AE 0%, #056a94 100%); }
+.flat-check { background: linear-gradient(135deg, #6FCF97 0%, #4db876 100%); }
+.flat-qr { background: linear-gradient(135deg, #862334 0%, #a82d47 100%); }
+.flat-register { background: linear-gradient(135deg, #0880AE 0%, #056a94 100%); }
+.flat-download { background: linear-gradient(135deg, #F2994A 0%, #e07a2f 100%); }
+.flat-upload { background: linear-gradient(135deg, #6FCF97 0%, #4db876 100%); }
+.flat-settings { background: linear-gradient(135deg, #862334 0%, #a82d47 100%); }
+
+/* Flat badge style */
+.badge-flat {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #862334 0%, #a82d47 100%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(134, 35, 52, 0.2);
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.badge-flat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(134, 35, 52, 0.3);
+}
+
+.badge-flat.badge-flat-accent {
+    background: linear-gradient(135deg, #0880AE 0%, #056a94 100%);
+    box-shadow: 0 4px 12px rgba(8, 128, 174, 0.2);
+}
+
+.badge-flat.badge-flat-success {
+    background: linear-gradient(135deg, #6FCF97 0%, #4db876 100%);
+    box-shadow: 0 4px 12px rgba(111, 207, 151, 0.2);
+}
+
+.badge-flat.badge-flat-warning {
+    background: linear-gradient(135deg, #F2994A 0%, #e07a2f 100%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(242, 153, 74, 0.2);
+}
+
+.badge-flat.badge-flat-error {
+    background: linear-gradient(135deg, #DC1500 0%, #a80c00 100%);
+    box-shadow: 0 4px 12px rgba(220, 21, 0, 0.2);
+}
+
+/* Flat design card icon */
+.card-flat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, #862334 0%, #a82d47 100%);
+    color: #FFFFFF;
+    box-shadow: 0 8px 20px rgba(134, 35, 52, 0.2);
+    margin-bottom: 12px;
+}
+
+/* Flat design utility classes */
+.flat-text-primary { color: #862334; }
+.flat-text-accent { color: #0880AE; }
+.flat-text-success { color: #6FCF97; }
+.flat-text-warning { color: #F2994A; }
+.flat-text-error { color: #DC1500; }
+
+/* ─── Scanner Specific Styles ──────────────────────────────────────────────── */
+
+.scanner-error {
+    color: #FFFFFF;
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.scanner-error-icon {
+    font-size: 48px;
+    line-height: 1;
+}
+
+.scanner-error-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFC553;
+}
+
+.scanner-error p {
+    margin: 0;
+    max-width: 300px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.scanner-error-reload {
+    margin-top: 16px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #862334;
+    background-color: #FFC553;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.scanner-error-reload:hover {
+    background-color: #ffdb8a;
+}
+
+/* Style for the persistent connection error message */
+.scan-result.result-connection-error {
+    background: #7f1d1d; /* A deep red */
+    border: 1px solid #fca5a5;
+    cursor: pointer; /* Indicate it's clickable to dismiss */
+}
+
+.scan-result.result-connection-error #resultIcon {
+    color: #fef2f2;
+    font-size: 48px;
+}
+
+.scan-result.result-connection-error #resultTitle {
+    color: #FFC553;
+    font-size: 1.3rem;
+    margin-top: 12px;
+}
+
+.scan-result.result-connection-error #resultDetail {
+    color: #fecaca;
+    font-size: 1rem;
+    margin-top: 8px;
+}
+
+/* ─── Scanner Result Modal ─────────────────────────────────────────────────── */
+
+/* Backdrop for the modal */
+/* Backdrop removed for toast-style notification */
+body.modal-open::before { display: none; }
+
+/* Overriding .scan-result to be a modal instead of a full-screen view */
+.scan-result {
+    position: fixed;
+    top: 16px; /* Position from top */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: calc(100% - 32px);
+    max-width: 400px;
+    z-index: 100;
+    border-radius: 14px;
+    padding: 16px 20px; /* Compact padding */
+    animation: slideInDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background-color: #2c2c2c; /* Default dark background for other results */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* The click event is handled by JS, let's ensure the cursor is right */
+    cursor: pointer;
+    /* Keep the column layout from booth.css, just make it a toast */
+}
+
+/* Override large styles from booth.css for a more compact toast */
+.scan-result .result-icon { font-size: 2.5rem; margin-bottom: 8px; }
+.scan-result .result-title { font-size: 1.2rem; margin-bottom: 6px; }
+.scan-result .result-name { font-size: 1rem; margin-bottom: 4px; }
+.scan-result .result-detail { font-size: 0.85rem; margin-bottom: 8px; opacity: 0.8; }
+.scan-result .result-progress { font-size: 0.9rem; font-weight: 600; }
