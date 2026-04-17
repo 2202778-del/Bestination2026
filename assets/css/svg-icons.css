@@ -119,65 +119,7 @@
 
 /* ─── Specific Icon Definitions ─────────────────────────────────────────────── */
 
-/* User icon */
-.icon-user::before { content: "👤"; font-size: 1.2em; }
-
-/* Lock icon */
-.icon-lock::before { content: "🔒"; font-size: 1.2em; }
-
-/* Envelope icon */
-.icon-envelope::before { content: "✉️"; font-size: 1.2em; }
-
-/* Phone icon */
-.icon-phone::before { content: "📞"; font-size: 1.2em; }
-
-/* Checkmark icon */
-.icon-check::before { content: "✅"; font-size: 1.2em; }
-
-/* Close/X icon */
-.icon-close::before { content: "✕"; font-size: 1.2em; }
-
-/* Delete icon */
-.icon-delete::before { content: "🗑️"; font-size: 1.2em; }
-
-/* Delete/Trash icon */
-.icon-trash::before { content: "🗑️"; font-size: 1.2em; }
-
-/* Edit icon */
-.icon-edit::before { content: "✏️"; font-size: 1.2em; }
-
-/* Download icon */
-.icon-download::before { content: "⬇️"; font-size: 1.2em; }
-
-/* Upload icon */
-.icon-upload::before { content: "⬆️"; font-size: 1.2em; }
-
-/* QR Code icon */
-.icon-qr::before { content: "📱"; font-size: 1.2em; }
-
-/* Camera icon */
-.icon-camera::before { content: "📷"; font-size: 1.2em; }
-
-/* Settings icon */
-.icon-settings::before { content: "⚙️"; font-size: 1.2em; }
-
-/* Home icon */
-.icon-home::before { content: "🏠"; font-size: 1.2em; }
-
-/* Back arrow icon */
-.icon-back::before { content: "←"; font-size: 1.2em; font-weight: bold; }
-
-/* Forward arrow icon */
-.icon-forward::before { content: "→"; font-size: 1.2em; font-weight: bold; }
-
-/* Info icon */
-.icon-info::before { content: "ℹ️"; font-size: 1.2em; }
-
-/* Warning icon */
-.icon-warning::before { content: "⚠️"; font-size: 1.2em; }
-
-/* Success/Checkmark circle icon */
-.icon-success-circle::before { content: "✔️"; font-size: 1.2em; }
+/* This file is being deprecated in favor of Bootstrap Icons. */
 
 /* ─── Animation Effects on Icons ────────────────────────────────────────────── */
 
@@ -262,7 +204,7 @@
     justify-content: center;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: 50%;
     font-size: 1.8rem;
     font-weight: 700;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -305,6 +247,11 @@
     color: #862334;
 }
 
+.icon-flat.flat-default {
+    background: #f0f0f0;
+    color: #888;
+}
+
 .icon-flat.flat-info {
     background: linear-gradient(135deg, #0880AE 0%, #056a94 100%);
     color: #FFFFFF;
@@ -314,21 +261,21 @@
 .icon-flat.flat-sm {
     width: 36px;
     height: 36px;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 1.2rem;
 }
 
 .icon-flat.flat-lg {
     width: 64px;
     height: 64px;
-    border-radius: 16px;
+    border-radius: 50%;
     font-size: 2.2rem;
 }
 
 .icon-flat.flat-xl {
     width: 80px;
     height: 80px;
-    border-radius: 20px;
+    border-radius: 50%;
     font-size: 3rem;
 }
 
@@ -389,7 +336,7 @@
     justify-content: center;
     width: 72px;
     height: 72px;
-    border-radius: 18px;
+    border-radius: 50%;
     font-size: 2.2rem;
     background: linear-gradient(135deg, #862334 0%, #a82d47 100%);
     color: #FFFFFF;

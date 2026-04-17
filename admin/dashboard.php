@@ -24,7 +24,7 @@ try {
     )->fetchAll();
 
 } catch (PDOException $e) {
-    die('Database error: ' . $e->getMessage());
+    exit('Database error: ' . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -32,54 +32,43 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Dashboard — UBBC Bestination 2026 Admin</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
 </head>
 <body class="admin-page">
 
-<nav class="admin-nav">
-    <div class="admin-nav-brand">
-        <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-sm">
-        <span>Bestination 2026</span>
-    </div>
-    <div class="admin-nav-links">
-        <a href="<?= BASE_URL ?>/admin/dashboard.php" class="active">Dashboard</a>
-        <a href="<?= BASE_URL ?>/admin/participants.php">Participants</a>
-        <a href="<?= BASE_URL ?>/admin/export.php">Export CSV</a>
-        <a href="<?= BASE_URL ?>/admin/logout.php" class="nav-logout">Logout</a>
-    </div>
-</nav>
+<?php $activePage = 'dashboard'; require_once __DIR__ . '/admin_nav.php'; ?>
 
 <div class="admin-content">
     <div class="admin-page-header">
         <h1>Live Dashboard</h1>
-        <span class="live-badge">&#9679; LIVE</span>
+        <span class="live-badge"><i class="bi bi-broadcast"></i> LIVE</span>
         <span class="last-updated" id="lastUpdated">Updated just now</span>
     </div>
 
     <!-- Summary Cards -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="icon-flat flat-accent">👤</div>
+            <div class="icon-flat flat-accent"><i class="bi bi-people-fill"></i></div>
             <div class="stat-value" id="statTotal"><?= $totalReg ?></div>
             <div class="stat-label">Total Registered</div>
         </div>
         <div class="stat-card stat-card-success">
-            <div class="icon-flat flat-success">🎉</div>
+            <div class="icon-flat flat-success"><i class="bi bi-patch-check-fill"></i></div>
             <div class="stat-value" id="statCompleted"><?= $totalComp ?></div>
             <div class="stat-label">Completed All 9</div>
             <div class="stat-pct" id="statPct"><?= $totalReg > 0 ? round(($totalComp / $totalReg) * 100) : 0 ?>%</div>
         </div>
         <div class="stat-card stat-card-warn">
-            <div class="icon-flat flat-warning">🏃</div>
+            <div class="icon-flat flat-warning"><i class="bi bi-person-walking"></i></div>
             <div class="stat-value" id="statProgress"><?= $inProgress ?></div>
             <div class="stat-label">In Progress</div>
         </div>
         <div class="stat-card">
-            <div class="icon-flat" style="background: #f0f0f0; color: #888;">➖</div>
+            <div class="icon-flat flat-default"><i class="bi bi-hourglass-split"></i></div>
             <div class="stat-value"><?= $totalReg - $totalComp - $inProgress > 0 ? $totalReg - $totalComp - $inProgress : 0 ?></div>
             <div class="stat-label">Not Started</div>
         </div>

@@ -108,6 +108,7 @@ function build_registration_html(array $s, string $link): string {
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
     body, table, td, a, p, h1, h2, h3, strong, span { font-family: 'Poppins', Arial, sans-serif; }
   </style>
@@ -181,6 +182,7 @@ function build_completion_html(array $s, array $scans): string {
 <head>
   <meta charset="UTF-8">
   <style>
+    @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
     body, table, td, a, p, h1, h2, h3, strong, span { font-family: 'Poppins', Arial, sans-serif; }
   </style>
@@ -190,9 +192,8 @@ function build_completion_html(array $s, array $scans): string {
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
   <tr><td style="background:linear-gradient(135deg,#862334,#a82d47);padding:40px 30px;text-align:center;">
-    <img src="{$logoSrc}" alt="UB Logo" width="90" style="display:block;margin:0 auto 20px;height:auto;">
-    <img src="{$logoSrc}" alt="UB Logo" width="120" style="display:block;margin:0 auto 20px;height:auto;">
-    <h1 style="color:#FFC553;margin:0;font-size:28px;">MISSION COMPLETE!</h1>
+    <div style="width: 80px; height: 80px; margin: 0 auto 15px; background: #FFC553; color: #862334; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: bold;"><i class="bi bi-check-circle-fill"></i></div>
+    <h1 style="color:#FFC553;margin:0;font-size:28px;letter-spacing:1px;">MISSION COMPLETE!</h1>
     <p style="color:#fff;margin:8px 0 0;font-size:16px;">UBBC Bestination 2026</p>
   </td></tr>
   <tr><td style="padding:40px 30px;text-align:center;">
@@ -203,8 +204,8 @@ function build_completion_html(array $s, array $scans): string {
       <tr style="background:#862334;"><td style="padding:10px 12px;color:#FFC553;font-weight:bold;font-size:13px;" colspan="3">Booths Visited</td></tr>
       {$scanRows}
     </table>
-    <p style="color:#555;line-height:1.6;margin:0 0 16px;">Thank you for exploring everything UB has to offer. We hope to see you as a future Batangueno!</p>
-    <div style="font-size:40px;">&#127968;</div>
+    <p style="color:#555;line-height:1.6;margin:0 0 24px;">Thank you for exploring everything UB has to offer. We hope to see you as a future Batangueno!</p>
+    <p style="color:#555;line-height:1.6;margin:0;">Your certificate of completion is now available for download from your passport page.</p>
   </td></tr>
   <tr><td style="background:#862334;padding:24px 30px;text-align:center;">
     <p style="color:#FFC553;font-weight:bold;margin:0 0 4px;">University of Batangas</p>

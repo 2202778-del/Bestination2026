@@ -483,3 +483,39 @@ body {
 input, select, textarea, button, a {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+/* ─── Global Bootstrap Icon Sizing ─────────────────────────────────────────── */
+
+/* Default icon size - larger and better aligned with text */
+.bi {
+    font-size: 1.2em;
+    vertical-align: -0.2em; /* Adjust vertical alignment */
+}
+
+/* Icons inside buttons and nav links */
+.btn .bi,
+.admin-nav-links a .bi {
+    font-size: 1.25em;
+    vertical-align: -0.22em;
+}
+
+/* Standalone action icons (like in tables) */
+.btn-action .bi {
+    font-size: 1.3rem;
+}
+
+/* Icons inside flat containers (like on dashboard) */
+.icon-flat .bi {
+    font-size: 1.8em;
+    vertical-align: 0;
+}
+
+/* Icons inside input fields */
+.input-with-icon .icon.bi {
+    font-size: 1.2rem;
+}
+
+/* Icons in status badges */
+.status-badge .bi {
+    font-size: 1em;
+    vertical-align: -0.15em;
+}

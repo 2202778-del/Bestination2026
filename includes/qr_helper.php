@@ -2,39 +2,51 @@
 require_once __DIR__ . '/config.php';
 
 /**
- * Generate a QR code PNG for the given student token.
- * Saves to qr_codes/{token}.png and returns the file path.
- * Tries local phpqrcode library first, falls back to qrserver.com API.
+ * Generates a QR code for a given URL and saves it to a file path.
+ * Tries local phpqrcode, falls back to qrserver.com API, then a GD placeholder.
+ *
+ * @param string $url The URL to encode.
+ * @param string $filePath The full path to save the PNG file.
+ * @param int $pixelSize The pixel size of each module for phpqrcode.
+ * @param int $margin The margin size in modules for phpqrcode.
+ * @return bool True if the file was created successfully (even placeholder).
  */
-function generate_qr(string $token): string {
-    $url      = BASE_URL . '/passport.php?token=' . urlencode($token);
-    $filePath = QR_CODES_DIR . $token . '.png';
-
-    if (file_exists($filePath)) {
-        return $filePath;
+function create_qr_code_file(string $url, string $filePath, int $pixelSize = 8, int $margin = 2): bool {
+    if (file_exists($filePath) && filesize($filePath) > 0) {
+        return true;
     }
 
     // Attempt 1: local phpqrcode library
     $libFile = BASE_PATH . '/lib/phpqrcode/qrlib.php';
     if (file_exists($libFile)) {
         require_once $libFile;
-        QRcode::png($url, $filePath, QR_ECLEVEL_M, 8, 2);
+        QRcode::png($url, $filePath, QR_ECLEVEL_M, $pixelSize, $margin);
         if (file_exists($filePath) && filesize($filePath) > 0) {
-            return $filePath;
+            return true;
         }
     }
 
     // Attempt 2: qrserver.com free API (requires internet)
-    $apiUrl  = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($url);
+    $apiSize = ($pixelSize * 35 < 1000) ? $pixelSize * 35 : 1000; // Rough conversion for API
+    $apiUrl  = 'https://api.qrserver.com/v1/create-qr-code/?size=' . $apiSize . 'x' . $apiSize . '&data=' . urlencode($url);
     $context = stream_context_create(['http' => ['timeout' => 10]]);
     $imgData = @file_get_contents($apiUrl, false, $context);
-    if ($imgData !== false) {
-        file_put_contents($filePath, $imgData);
-        return $filePath;
+    if ($imgData !== false && file_put_contents($filePath, $imgData)) {
+        return true;
     }
 
     // Attempt 3: generate a simple placeholder image using GD
-    generate_placeholder_qr($filePath, $url);
+    return generate_placeholder_qr($filePath, $url);
+}
+
+/**
+ * Generate a QR code PNG for the given student token.
+ * Saves to qr_codes/{token}.png and returns the file path.
+ */
+function generate_qr(string $token): string {
+    $url      = BASE_URL . '/passport.php?token=' . urlencode($token);
+    $filePath = QR_CODES_DIR . $token . '.png';
+    create_qr_code_file($url, $filePath, 8, 2);
     return $filePath;
 }
 

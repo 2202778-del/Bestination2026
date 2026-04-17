@@ -23,27 +23,28 @@ try {
 }
 
 $boothIcons = [
-    'COE'  => '⚙️',
-    'CAS'  => '📚',
-    'CBAHM'  => '💼',
-    'CEDU' => '🏫',
-    'CON'  => '🩺',
-    'CICT'  => '💻',
-    'CCJE' => '⚖️',
-    'CAMS' => '🔬',
-    'CIT'  => '🛠️',
+    'COE'   => 'bi-gear-fill',
+    'CAS'   => 'bi-book-fill',
+    'CBAHM' => 'bi-briefcase-fill',
+    'CEDU'  => 'bi-mortarboard-fill',
+    'CON'   => 'bi-bandaid-fill',
+    'CICT'  => 'bi-pc-display',
+    'CCJE'  => 'bi-shield-lock-fill',
+    'CAMS'  => 'bi-clipboard2-pulse-fill',
+    'CIT'   => 'bi-tools',
 ];
-$icon = $boothIcons[$booth['code']] ?? '🏢';
+$icon = $boothIcons[$booth['code']] ?? 'bi-building';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
     <title><?= sanitize($booth['name']) ?> Scanner — Bestination 2026</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/booth.css">
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>

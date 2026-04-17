@@ -63,32 +63,21 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Participants — UBBC Bestination 2026 Admin</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
 </head>
 <body class="admin-page">
 
-<nav class="admin-nav">
-    <div class="admin-nav-brand">
-        <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-sm">
-        <span>Bestination 2026</span>
-    </div>
-    <div class="admin-nav-links">
-        <a href="<?= BASE_URL ?>/admin/dashboard.php">Dashboard</a>
-        <a href="<?= BASE_URL ?>/admin/participants.php" class="active">Participants</a>
-        <a href="<?= BASE_URL ?>/admin/export.php">Export CSV</a>
-        <a href="<?= BASE_URL ?>/admin/logout.php" class="nav-logout">Logout</a>
-    </div>
-</nav>
+<?php $activePage = 'participants'; require_once __DIR__ . '/admin_nav.php'; ?>
 
 <div class="admin-content">
     <div class="admin-page-header">
         <h1>Participants <span class="count-badge"><?= $totalCount ?></span></h1>
         <a href="<?= BASE_URL ?>/admin/export.php" class="btn btn-secondary btn-sm btn-with-icon">
-            <div class="icon icon-sm icon-download"></div> Export CSV
+            <i class="bi bi-download"></i> Export CSV
         </a>
     </div>
 
@@ -168,7 +157,7 @@ try {
                         </td>
                         <td>
                             <?php if ($completed): ?>
-                            <span class="status-badge badge-complete">&#10003; Complete</span>
+                            <span class="status-badge badge-complete"><i class="bi bi-check-circle-fill"></i> Complete</span>
                             <?php elseif ($row['scan_count'] > 0): ?>
                             <span class="status-badge badge-progress">In Progress</span>
                             <?php else: ?>
@@ -178,10 +167,10 @@ try {
                         <td class="td-date"><?= date('M j, Y g:i A', strtotime($row['registered_at'])) ?></td>
                         <td class="td-actions">
                             <a href="<?= BASE_URL ?>/admin/edit_participant.php?id=<?= $row['id'] ?>" class="btn-action btn-edit" title="Edit">
-                                <div class="icon icon-edit"></div>
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                             <a href="<?= BASE_URL ?>/admin/delete_participant.php?id=<?= $row['id'] ?>&csrf_token=<?= $csrf ?>" class="btn-action btn-delete" title="Delete" onclick="return confirm('Are you sure you want to delete this participant? This action cannot be undone.')">
-                                <div class="icon icon-delete"></div>
+                                <i class="bi bi-trash-fill"></i>
                             </a>
                         </td>
                     </tr>

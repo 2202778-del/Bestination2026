@@ -16,10 +16,10 @@ $csrfToken = csrf_token();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Admin Login — UBBC Bestination 2026</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin.css">
 </head>
 <body class="admin-login-page">
@@ -43,12 +43,12 @@ $csrfToken = csrf_token();
             <div class="form-group">
                 <label for="password">Password</label>
                 <div class="input-with-icon">
-                    <div class="icon icon-lock"></div>
+                    <i class="bi bi-lock-fill icon"></i>
                     <input type="password" id="password" name="password" placeholder="Enter admin password" required autofocus>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-full btn-with-icon">
-                <div class="icon icon-sm icon-white" style="stroke-width: 2.5;">→</div> Login
+                <i class="bi bi-box-arrow-in-right"></i> Login
             </button>
         </form>
     </div>

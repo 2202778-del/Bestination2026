@@ -9,19 +9,9 @@ $regUrl     = BASE_URL . '/register.php';
 $regQrFile  = QR_CODES_DIR . 'registration_qr.png';
 $regQrUrl   = BASE_URL . '/qr_codes/registration_qr.png';
 
-// Generate registration QR using phpqrcode or API
-if (!file_exists($regQrFile)) {
-    $libFile = BASE_PATH . '/lib/phpqrcode/qrlib.php';
-    if (file_exists($libFile)) {
-        require_once $libFile;
-        QRcode::png($regUrl, $regQrFile, QR_ECLEVEL_M, 10, 4);
-    } else {
-        $apiUrl  = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' . urlencode($regUrl);
-        $context = stream_context_create(['http' => ['timeout' => 10]]);
-        $imgData = @file_get_contents($apiUrl, false, $context);
-        if ($imgData) file_put_contents($regQrFile, $imgData);
-    }
-}
+// Generate registration QR using the centralized helper function.
+// This avoids code duplication and resolves linter warnings about the QRcode class.
+create_qr_code_file($regUrl, $regQrFile, 10, 4);
 
 // Live count
 $totalReg = 0;
@@ -35,10 +25,11 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>UBBC Bestination 2026 — Registration</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -214,7 +205,7 @@ try {
     <p class="landing-tagline" style="margin-bottom: 24px;">Explore. Discover. Belong.</p>
 
     <div class="qr-section">
-        <p class="qr-prompt">📱 Scan to Register!</p>
+        <p class="qr-prompt"><i class="bi bi-qr-code-scan"></i> Scan to Register!</p>
         <p class="qr-subprompt">Use your phone camera to scan the QR code below</p>
 
         <?php if (file_exists($regQrFile)): ?>
@@ -235,12 +226,12 @@ try {
 
     <div class="stats-bar">
         <div class="stat-item">
-            <div class="icon-flat flat-accent flat-sm" style="margin: 0 auto 8px;">👤</div>
+            <div class="icon-flat flat-accent flat-sm" style="margin: 0 auto 8px;"><i class="bi bi-people-fill"></i></div>
             <div class="stat-num" id="liveCount"><?= $totalReg ?></div>
             <div class="stat-lbl">Registered</div>
         </div>
         <div class="stat-item">
-            <div class="icon-flat flat-primary flat-sm" style="margin: 0 auto 8px;">🏢</div>
+            <div class="icon-flat flat-primary flat-sm" style="margin: 0 auto 8px;"><i class="bi bi-building"></i></div>
             <div class="stat-num">9</div>
             <div class="stat-lbl">Colleges</div>
         </div>

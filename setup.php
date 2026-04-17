@@ -186,6 +186,7 @@ $allDone = $dbReady && $passIsSet;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Setup — UBBC Bestination 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -273,7 +274,7 @@ $allDone = $dbReady && $passIsSet;
         }
         .alert ul { padding-left: 18px; margin: 0; }
         .alert li  { margin-top: 6px; }
-        .alert-success { background: rgba(111, 207, 151, 0.1); color: #1d663a; border-left-color: #6FCF97; }
+        .alert-success { background: rgba(255, 255, 255, 0.15); color: #ffffff; border-left-color: #FFC553; }
         .alert-error   { background: rgba(220, 21, 0, 0.1); color: #8b0a00; border-left-color: #DC1500; }
         .alert-info    { background: rgba(8, 128, 174, 0.1); color: #034477; border-left-color: #0880AE; }
 
@@ -354,6 +355,14 @@ $allDone = $dbReady && $passIsSet;
             font-family: 'Poppins', sans-serif;
             box-shadow: 0 4px 12px rgba(255, 197, 83, 0.2);
         }
+        .quick-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quick-link .bi {
+            font-size: 1.1em;
+        }
         .quick-link:hover {
             background: #ffe44d;
             transform: translateY(-2px);
@@ -417,7 +426,7 @@ $allDone = $dbReady && $passIsSet;
 
     <!-- Header -->
     <div class="setup-header">
-        <div class="icon-flat flat-gold" style="margin: 0 auto 16px;">🛠️</div>
+        <div class="icon-flat flat-gold" style="margin: 0 auto 16px;"><i class="bi bi-tools"></i></div>
         <h1>BESTINATION 2026</h1>
         <p>System Setup &mdash; University of Batangas</p>
     </div>
@@ -439,27 +448,27 @@ $allDone = $dbReady && $passIsSet;
         <div class="card-title">📊 System Status</div>
         <div class="status-list">
             <div class="status-row">
-                <span class="status-icon"><?= $dbReady ? '✅' : '❌' ?></span>
+                <span class="status-icon"><?= $dbReady ? '<i class="bi bi-check-circle-fill" style="color: #6FCF97;"></i>' : '<i class="bi bi-x-circle-fill" style="color: #DC1500;"></i>' ?></span>
                 <span class="status-label">Database &amp; Tables (<code>bestination2026</code>)</span>
                 <span class="badge <?= $dbReady ? 'badge-ok' : 'badge-error' ?>"><?= $dbReady ? 'Ready' : 'Failed' ?></span>
             </div>
             <div class="status-row">
-                <span class="status-icon"><?= $passIsSet ? '✅' : '🔒' ?></span>
+                <span class="status-icon"><?= $passIsSet ? '<i class="bi bi-check-circle-fill" style="color: #6FCF97;"></i>' : '<i class="bi bi-lock-fill" style="color: #F2994A;"></i>' ?></span>
                 <span class="status-label">Admin Password</span>
                 <span class="badge <?= $passIsSet ? 'badge-ok' : 'badge-warn' ?>"><?= $passIsSet ? 'Set' : 'Not Set' ?></span>
             </div>
             <div class="status-row">
-                <span class="status-icon"><?= $qrWritable ? '✅' : '❌' ?></span>
+                <span class="status-icon"><?= $qrWritable ? '<i class="bi bi-check-circle-fill" style="color: #6FCF97;"></i>' : '<i class="bi bi-x-circle-fill" style="color: #DC1500;"></i>' ?></span>
                 <span class="status-label">QR Codes Directory (writable)</span>
                 <span class="badge <?= $qrWritable ? 'badge-ok' : 'badge-error' ?>"><?= $qrWritable ? 'Writable' : 'Not Writable' ?></span>
             </div>
             <div class="status-row">
-                <span class="status-icon"><?= $hasQrLib ? '✅' : '⚠️' ?></span>
+                <span class="status-icon"><?= $hasQrLib ? '<i class="bi bi-check-circle-fill" style="color: #6FCF97;"></i>' : '<i class="bi bi-exclamation-triangle-fill" style="color: #F2994A;"></i>' ?></span>
                 <span class="status-label">phpqrcode Library</span>
                 <span class="badge <?= $hasQrLib ? 'badge-ok' : 'badge-warn' ?>"><?= $hasQrLib ? 'Installed' : 'API Fallback' ?></span>
             </div>
             <div class="status-row">
-                <span class="status-icon"><?= $hasMailer ? '✅' : '⚠️' ?></span>
+                <span class="status-icon"><?= $hasMailer ? '<i class="bi bi-check-circle-fill" style="color: #6FCF97;"></i>' : '<i class="bi bi-exclamation-triangle-fill" style="color: #F2994A;"></i>' ?></span>
                 <span class="status-label">PHPMailer Library</span>
                 <span class="badge <?= $hasMailer ? 'badge-ok' : 'badge-warn' ?>"><?= $hasMailer ? 'Installed' : 'mail() Fallback' ?></span>
             </div>
@@ -468,7 +477,7 @@ $allDone = $dbReady && $passIsSet;
 
     <!-- Admin Password Form -->
     <div class="card">
-        <div class="card-title">🔑 <?= $passIsSet ? 'Change' : 'Set' ?> Admin Password</div>
+        <div class="card-title"><i class="bi bi-key-fill"></i> <?= $passIsSet ? 'Change' : 'Set' ?> Admin Password</div>
 
         <?php if (!empty($formMessages)): ?>
         <div class="alert alert-success"><?= implode('<br>', $formMessages) ?></div>
@@ -498,7 +507,7 @@ $allDone = $dbReady && $passIsSet;
 
     <!-- SMTP Config Reminder -->
     <div class="card">
-        <div class="card-title">✉️ Configure Email (SMTP)</div>
+        <div class="card-title"><i class="bi bi-envelope-fill"></i> Configure Email (SMTP)</div>
         <p style="font-size:0.88rem;color:#555;margin-bottom:10px;">
             Edit <code>includes/config.php</code> and fill in your email credentials so the system can send QR passports and completion emails:
         </p>
@@ -516,14 +525,14 @@ define('BASE_URL',          'http://localhost/Bestination2026');</pre>
     <!-- Done! -->
     <?php if ($allDone): ?>
     <div class="done-box">
-        <div class="icon-flat flat-success flat-xl" style="margin: 0 auto 16px;">🎉</div>
+        <div class="icon-flat flat-success flat-xl" style="margin: 0 auto 16px;"><i class="bi bi-check2-circle"></i></div>
         <h2>Setup Complete!</h2>
         <p>The system is ready to use. Remember to delete <code>setup.php</code> from your server before the event!</p>
         <div class="quick-links">
-            <a href="http://localhost/Bestination2026/" class="quick-link">🏠 Landing Page</a>
-            <a href="http://localhost/Bestination2026/register.php" class="quick-link">📝 Registration</a>
-            <a href="http://localhost/Bestination2026/booth/index.php" class="quick-link">📱 Booth Scanner</a>
-            <a href="http://localhost/Bestination2026/admin/login.php" class="quick-link">🛡️ Admin Panel</a>
+            <a href="http://localhost/Bestination2026/" class="quick-link"><i class="bi bi-house-door-fill"></i> Landing Page</a>
+            <a href="http://localhost/Bestination2026/register.php" class="quick-link"><i class="bi bi-pencil-square"></i> Registration</a>
+            <a href="http://localhost/Bestination2026/booth/index.php" class="quick-link"><i class="bi bi-qr-code-scan"></i> Booth Scanner</a>
+            <a href="http://localhost/Bestination2026/admin/login.php" class="quick-link"><i class="bi bi-shield-lock-fill"></i> Admin Panel</a>
         </div>
     </div>
     <?php endif; ?>

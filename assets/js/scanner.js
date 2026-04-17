@@ -18,7 +18,7 @@
 
     function showResult(type, icon, title, name, detail, progress) {
         resultEl.className = 'scan-result result-' + type;
-        iconEl.textContent = icon;
+        iconEl.innerHTML = icon;
         titleEl.textContent = title;
         nameEl.textContent = name || '';
         detailEl.textContent = detail || '';
@@ -58,7 +58,7 @@
 
         // Validate token looks like a 64-char hex string
         if (!/^[a-f0-9]{64}$/i.test(token)) {
-            showResult('error', '&#10060;', 'Invalid QR Code', '', 'This QR code is not a valid Bestination passport.', '');
+            showResult('error', '<i class="bi bi-shield-exclamation"></i>', 'Invalid QR Code', '', 'This QR code is not a valid Bestination passport.', '');
             return;
         }
 
@@ -78,7 +78,7 @@
                 if (data.just_completed || data.completed) {
                     showResult(
                         'complete',
-                        '&#127881;',
+                        '<i class="bi bi-patch-check-fill"></i>',
                         'MISSION COMPLETE!',
                         data.student_name,
                         data.booth_name + ' ✓',
@@ -87,7 +87,7 @@
                 } else {
                     showResult(
                         'success',
-                        '&#10004;',
+                        '<i class="bi bi-check-circle"></i>',
                         'Visit Logged!',
                         data.student_name,
                         BOOTH_NAME,
@@ -97,7 +97,7 @@
             } else if (data.status === 'duplicate') {
                 showResult(
                     'duplicate',
-                    '&#8505;',
+                    '<i class="bi bi-info-circle"></i>',
                     'Already Scanned',
                     data.student_name,
                     data.message || 'Already visited this booth.',
@@ -106,7 +106,7 @@
             } else {
                 showResult(
                     'error',
-                    '&#10060;',
+                    '<i class="bi bi-x-circle"></i>',
                     'Not Found',
                     '',
                     data.message || 'QR code not recognized.',
@@ -115,7 +115,7 @@
             }
         })
         .catch(function() {
-            showResult('error', '&#9888;', 'Connection Error', '', 'Could not connect to server. Check your network.', '');
+            showResult('error', '<i class="bi bi-wifi-off"></i>', 'Connection Error', '', 'Could not connect to server. Check your network.', '');
         });
     }
 
@@ -145,7 +145,7 @@
                 onScanFailure
             ).catch(function(err2) {
                 document.getElementById('qr-reader').innerHTML =
-                    '<p style="color:#fff;text-align:center;padding:20px;">Camera access denied. Please allow camera permission and reload.</p>';
+                    '<div class="scanner-error"><div class="scanner-error-icon"><i class="bi bi-camera-video-off"></i></div><h3 class="scanner-error-title">Camera Error</h3><p>Camera access was denied. Please allow camera permission in your browser settings and reload the page.</p><button class="scanner-error-reload" onclick="window.location.reload()">Reload</button></div>';
             });
         });
     }
@@ -163,7 +163,7 @@
         const readerEl = document.getElementById('qr-reader');
         readerEl.innerHTML = `
             <div class="scanner-error">
-                <div class="scanner-error-icon">&#9888;</div>
+                <div class="scanner-error-icon"><i class="bi bi-cloud-slash"></i></div>
                 <h3 class="scanner-error-title">Scanner Failed to Load</h3>
                 <p>The QR code scanner library could not be loaded. Please check your internet connection and try again.</p>
                 <button class="scanner-error-reload" onclick="window.location.reload()">Reload Page</button>

@@ -9,7 +9,7 @@ $isDup  = isset($_GET['dup']);
 
 if (!$token || strlen($token) !== 64) {
     http_response_code(404);
-    die('Invalid passport link.');
+    exit('Invalid passport link.');
 }
 
 try {
@@ -21,7 +21,7 @@ try {
     $student = $stmt->fetch();
     if (!$student) {
         http_response_code(404);
-        die('Passport not found.');
+        exit('Passport not found.');
     }
 
     // Load all booths
@@ -43,15 +43,15 @@ try {
 
     // Booth icon map
     $boothIcons = [
-        'COE'   => '⚙️',
-        'CAS'   => '📚',
-        'CBAHM' => '💼',
-        'CEDU'  => '🏫',
-        'CON'   => '🩺',
-        'CICT'  => '💻',
-        'CCJE'  => '⚖️',
-        'CAMS'  => '🔬',
-        'CIT'   => '🛠️',
+        'COE'   => 'bi-gear-fill',
+        'CAS'   => 'bi-book-fill',
+        'CBAHM' => 'bi-briefcase-fill',
+        'CEDU'  => 'bi-mortarboard-fill',
+        'CON'   => 'bi-bandaid-fill',
+        'CICT'  => 'bi-pc-display',
+        'CCJE'  => 'bi-shield-lock-fill',
+        'CAMS'  => 'bi-clipboard2-pulse-fill',
+        'CIT'   => 'bi-tools',
     ];
 
     // Ensure QR exists
@@ -60,7 +60,7 @@ try {
 
 } catch (PDOException $e) {
     error_log('Passport load error: ' . $e->getMessage());
-    die('System error. Please try again.');
+    exit('System error. Please try again.');
 }
 ?>
 <!DOCTYPE html>
@@ -68,10 +68,11 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
     <title>My Passport — UBBC Bestination 2026</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/svg-icons.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/passport.css">
 </head>
 <body class="passport-page">
@@ -81,9 +82,9 @@ try {
     <!-- Header -->
     <div class="passport-header <?= $completed ? 'completed' : '' ?>">
         <div class="event-logo small" style="margin-bottom: 8px; justify-content: center; flex-direction: column;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
+            <img src="<?= BASE_URL ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
             <div class="logo-text">
-                <span class="logo-main">BESTINATION</span>
+                <span class="logo-main" style="color: #862334;">BESTINATION</span>
                 <span class="logo-year">2026</span>
             </div>
         </div>
@@ -99,13 +100,11 @@ try {
 
     <?php if ($completed): ?>
     <div class="completion-banner">
-        <div class="icon-flat flat-gold flat-lg">
-            🎉
-        </div>
+        <div class="icon-flat flat-primary flat-lg"><i class="bi bi-check-circle-fill"></i></div>
         <h3>Mission Complete!</h3>
         <p>You visited all 9 booths on <?= date('F j, Y', strtotime($student['completed_at'])) ?>!</p>
         <a href="<?= BASE_URL ?>/certificate.php?token=<?= urlencode($token) ?>" target="_blank" class="btn btn-primary btn-sm" style="margin-top: 16px;">
-            <div class="icon icon-sm icon-download"></div> Download Certificate
+            <i class="bi bi-download"></i> Download Certificate
         </a>
     </div>
     <?php endif; ?>
@@ -134,15 +133,15 @@ try {
         <?php
             $bid     = $booth['id'];
             $visited = isset($visitedBooths[$bid]);
-            $icon    = $boothIcons[$booth['code']] ?? '🏢';
+            $iconClass = $boothIcons[$booth['code']] ?? 'bi-question-lg';
             $time    = $visited ? date('g:i A', strtotime($visitedBooths[$bid])) : '';
         ?>
         <div class="booth-card <?= $visited ? 'visited' : 'pending' ?>" data-booth-id="<?= $bid ?>">
             <div class="booth-stamp">
                 <?php if ($visited): ?>
-                <span class="stamp-check">✓</span>
+                <span class="stamp-check"><i class="bi bi-check-lg"></i></span>
                 <?php else: ?>
-                <span class="booth-icon"><?= $icon ?></span>
+                <i class="bi <?= $iconClass ?>"></i>
                 <?php endif; ?>
             </div>
             <div class="booth-info">
