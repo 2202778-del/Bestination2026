@@ -15,9 +15,9 @@ define('TOTAL_BOOTHS', 9);
 // ─── SMTP (PHPMailer) ─────────────────────────────────────────────────────────
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'innoved.system@ub.edu.ph');       // ← change this
-define('SMTP_PASS', 'iyre zgcs cenu rryn');           // ← change this (Gmail App Password)
-define('MAIL_FROM_ADDRESS', 'innoved.system@ub.edu.ph'); // ← change this
+define('SMTP_USER', 'bestination.ubbc@ub.edu.ph');       // ← change this
+define('SMTP_PASS', 'cimr nxhe mfap wzyd');           // ← change this (Gmail App Password)
+define('MAIL_FROM_ADDRESS', 'bestination.ubbc@ub.edu.ph'); // ← change this
 define('MAIL_FROM_NAME', 'UBBC Bestination 2026');
 
 // ─── Admin ────────────────────────────────────────────────────────────────────

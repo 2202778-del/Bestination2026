@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
@@ -8,12 +9,19 @@ $regOpen = get_setting('registration_open', '1');
 
 $errors = $_SESSION['reg_errors'] ?? [];
 $old    = $_SESSION['reg_old'] ?? [];
-if (session_status() === PHP_SESSION_NONE) session_start();
 unset($_SESSION['reg_errors'], $_SESSION['reg_old']);
 
 $csrfToken = csrf_token();
 
 $gradeOptions = ['Grade 11', 'Grade 12'];
+
+// Load booths for the interest dropdown
+try {
+    $db = get_db();
+    $booths = $db->query('SELECT id, name FROM booths ORDER BY sort_order')->fetchAll();
+} catch (Exception $e) {
+    $booths = []; // Gracefully fail if DB is not ready
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,6 +124,19 @@ $gradeOptions = ['Grade 11', 'Grade 12'];
                 <?php endforeach; ?>
             </select>
             <span class="field-error" id="err_grade_level"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="interested_booth_id">College program you are interested in <span class="required">*</span></label>
+            <select id="interested_booth_id" name="interested_booth_id" required>
+                <option value="">— Select a College Program —</option>
+                <?php foreach ($booths as $booth): ?>
+                <option value="<?= $booth['id'] ?>" <?= (($old['interested_booth_id'] ?? '') == $booth['id']) ? 'selected' : '' ?>>
+                    <?= sanitize($booth['name']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+            <span class="field-error" id="err_interested_booth_id"></span>
         </div>
 
         <button type="submit" class="btn btn-primary btn-full" id="submitBtn">

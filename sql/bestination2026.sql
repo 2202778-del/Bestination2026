@@ -61,7 +61,7 @@ INSERT INTO `booths` (`id`, `code`, `name`, `sort_order`) VALUES
 (1, 'COE', 'College of Engineering', 1),
 (2, 'CAS', 'College of Arts and Sciences', 2),
 (3, 'CBAHM', 'College of Business, Accountancy, and Hospitality Management', 3),
-(4, 'COED', 'College of Education', 4),
+(4, 'CEDU', 'College of Education', 4),
 (5, 'CON', 'College of Nursing', 5),
 (6, 'CICT', 'College of Information and Communications Technology', 6),
 (7, 'CCJE', 'College of Criminal Justice Education', 7),
@@ -114,9 +114,10 @@ CREATE TABLE `students` (
   `middle_name` varchar(100) DEFAULT NULL,
   `email` varchar(191) NOT NULL,
   `mobile` varchar(20) NOT NULL,
-  `gender` enum('Male','Female','Prefer not to say') NOT NULL,
+  `gender` enum('Male','Female') NOT NULL,
   `school_name` varchar(200) NOT NULL,
   `grade_level` varchar(50) NOT NULL,
+  `interested_booth_id` tinyint(3) UNSIGNED DEFAULT NULL,
   `qr_token` char(64) NOT NULL,
   `registered_at` datetime NOT NULL DEFAULT current_timestamp(),
   `completed_at` datetime DEFAULT NULL,
@@ -161,6 +162,7 @@ ALTER TABLE `settings`
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `mobile` (`mobile`),
   ADD UNIQUE KEY `qr_token` (`qr_token`);
 
 --
@@ -171,7 +173,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `booths`
 --
 ALTER TABLE `booths`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `scans`

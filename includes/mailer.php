@@ -47,11 +47,8 @@ function send_via_phpmailer(string $toEmail, string $toName, string $subject, st
         $mail->Username   = SMTP_USER;
         $mail->Password   = SMTP_PASS;
         $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-        // Enable verbose debug output
-        // $mail->SMTPDebug = PHPMailer\PHPMailer\PHPMailer::DEBUG_SERVER;
-        // $mail->Debugoutput = function($str, $level) {
-        //     error_log("debug level $level; message: $str");
-        // };
+        // Set to 2 (DEBUG_SERVER) to see errors, or 0 for production
+        $mail->SMTPDebug = 0;
 
         $mail->Port       = SMTP_PORT;
         $mail->CharSet    = 'UTF-8';
@@ -63,7 +60,7 @@ function send_via_phpmailer(string $toEmail, string $toName, string $subject, st
         // Embed the UB logo
         $logoPath = BASE_PATH . '/assets/img/ub-logo-white.png';
         if (file_exists($logoPath)) {
-            $mail->addEmbeddedImage($logoPath, 'ub_logo_white', ''); // Pass empty name
+            $mail->addEmbeddedImage($logoPath, 'ub_logo');
         }
 
         // Embed QR code if it exists
@@ -72,7 +69,7 @@ function send_via_phpmailer(string $toEmail, string $toName, string $subject, st
         }
 
         $mail->isHTML(true);
-        $mail->Body    = str_replace('cid:ub_logo_white_placeholder', 'cid:ub_logo_white', $html);
+        $mail->Body    = $html;
         $mail->AltBody = $plain;
         $mail->send();
         return true;
@@ -103,19 +100,25 @@ function build_registration_html(array $s, string $link): string {
     $school = htmlspecialchars($s['school_name']);
     $grade  = htmlspecialchars($s['grade_level']);
     $qrSrc  = 'cid:passport_qr';
-    $logoSrc = 'cid:ub_logo_white_placeholder'; // Use a placeholder
+    $logoSrc = 'cid:ub_logo';
 
     return <<<HTML
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
+    body, table, td, a, p, h1, h2, h3, strong, span { font-family: 'Poppins', Arial, sans-serif; }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#f4f4f4;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:20px 0;">
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
   <!-- Header -->
   <tr><td style="background:linear-gradient(135deg,#862334,#a82d47);padding:40px 30px;text-align:center;">
-    <img src="{$logoSrc}" alt="UB Logo" width="90" style="display:block;margin:0 auto 20px;height:auto;">
+    <img src="{$logoSrc}" alt="UB Logo" width="120" style="display:block;margin:0 auto 20px;height:auto;">
     <h1 style="color:#FFC553;margin:0;font-size:28px;letter-spacing:2px;">UBBC BESTINATION 2026</h1>
     <p style="color:#fff;margin:8px 0 0;font-size:14px;opacity:0.9;">Explore. Discover. Belong.</p>
   </td></tr>
@@ -171,18 +174,24 @@ function build_completion_html(array $s, array $scans): string {
         $time = date('g:i A', strtotime($sc['scanned_at']));
         $scanRows .= "<tr><td style='padding:8px 12px;'>&#10003;</td><td style='padding:8px 12px;color:#333;'>{$boothName}</td><td style='padding:8px 12px;color:#666;font-size:12px;'>{$time}</td></tr>";
     }
-    $logoSrc = 'cid:ub_logo_white_placeholder'; // Use a placeholder
+    $logoSrc = 'cid:ub_logo';
     return <<<HTML
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif;">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
+    body, table, td, a, p, h1, h2, h3, strong, span { font-family: 'Poppins', Arial, sans-serif; }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#f4f4f4;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:20px 0;">
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
   <tr><td style="background:linear-gradient(135deg,#862334,#a82d47);padding:40px 30px;text-align:center;">
     <img src="{$logoSrc}" alt="UB Logo" width="90" style="display:block;margin:0 auto 20px;height:auto;">
-    <div style="font-size:60px;margin-bottom:10px;">&#127881;</div>
+    <img src="{$logoSrc}" alt="UB Logo" width="120" style="display:block;margin:0 auto 20px;height:auto;">
     <h1 style="color:#FFC553;margin:0;font-size:28px;">MISSION COMPLETE!</h1>
     <p style="color:#fff;margin:8px 0 0;font-size:16px;">UBBC Bestination 2026</p>
   </td></tr>

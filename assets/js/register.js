@@ -19,7 +19,7 @@
         if (inp) { inp.classList.remove('error'); }
     }
     function clearAll() {
-        ['last_name','first_name','email','mobile','gender','school_name','grade_level']
+        ['last_name','first_name','email','mobile','gender','school_name','grade_level','interested_booth_id']
             .forEach(clearError);
     }
 
@@ -34,6 +34,7 @@
         const gender    = form.gender.value;
         const school    = form.school_name.value.trim();
         const grade     = form.grade_level.value;
+        const interest  = form.interested_booth_id.value;
 
         if (!lastName)  { showError('last_name', 'Last name is required.'); valid = false; }
         if (!firstName) { showError('first_name', 'First name is required.'); valid = false; }
@@ -53,12 +54,13 @@
         if (!gender) { showError('gender', 'Please select a gender.'); valid = false; }
         if (!school) { showError('school_name', 'School name is required.'); valid = false; }
         if (!grade)  { showError('grade_level', 'Please select a grade level.'); valid = false; }
+        if (!interest) { showError('interested_booth_id', 'Please select a college program.'); valid = false; }
 
         return valid;
     }
 
     // Live validation on blur
-    ['last_name','first_name','email','mobile','gender','school_name','grade_level'].forEach(function(id) {
+    ['last_name','first_name','email','mobile','gender','school_name','grade_level','interested_booth_id'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.addEventListener('blur', validate);
     });

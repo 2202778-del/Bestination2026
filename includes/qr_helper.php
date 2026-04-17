@@ -38,16 +38,25 @@ function generate_qr(string $token): string {
     return $filePath;
 }
 
-function generate_placeholder_qr(string $filePath, string $url): void {
-    if (!function_exists('imagecreate')) return;
-    $img = imagecreate(300, 300);
+function generate_placeholder_qr(string $filePath, string $url): bool {
+    // Check if the GD extension is loaded, as it's required for image functions.
+    if (!extension_loaded('gd') || !function_exists('imagecreate')) {
+        return false;
+    }
+
+    $img = @imagecreate(300, 300);
+    if (!$img) {
+        return false; // Failed to create image resource.
+    }
+
     $white = imagecolorallocate($img, 255, 255, 255);
     $black = imagecolorallocate($img, 0, 0, 0);
     imagefill($img, 0, 0, $white);
     imagestring($img, 3, 10, 140, 'QR Pending', $black);
     imagestring($img, 1, 10, 160, substr($url, 0, 50), $black);
-    imagepng($img, $filePath);
+    $success = imagepng($img, $filePath);
     imagedestroy($img);
+    return $success;
 }
 
 function qr_image_url(string $token): string {

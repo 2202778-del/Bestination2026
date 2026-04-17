@@ -30,6 +30,29 @@ try {
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     $pdo->exec("USE `{$dbName}`");
 
+    // --- Schema migration checks (add missing columns/indexes to existing tables) ---
+    // This makes the script safe to run even if tables from a previous version exist.
+
+    // Check for interested_booth_id in students table
+    $colCheck = $pdo->query("SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$dbName}' AND TABLE_NAME = 'students' AND COLUMN_NAME = 'interested_booth_id' LIMIT 1");
+    if ($colCheck && $colCheck->fetch() === false) {
+        $pdo->exec("ALTER TABLE students ADD COLUMN interested_booth_id TINYINT UNSIGNED DEFAULT NULL AFTER grade_level");
+        $autoMessages[] = '&#10003; Added missing column `interested_booth_id` to `students` table.';
+    }
+
+    // Check for UNIQUE constraint on mobile
+    $idxCheck = $pdo->query("SELECT 1 FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = '{$dbName}' AND TABLE_NAME = 'students' AND INDEX_NAME = 'mobile' LIMIT 1");
+    if ($idxCheck && $idxCheck->fetch() === false) {
+        // Check if the column has duplicate values before adding a unique index
+        $dupeCheck = $pdo->query("SELECT COUNT(*) FROM (SELECT 1 FROM students GROUP BY mobile HAVING COUNT(*) > 1) as dupes")->fetchColumn();
+        if ($dupeCheck > 0) {
+            $autoErrors[] = '&#10060; Cannot add UNIQUE index to `mobile` column because duplicate mobile numbers exist. Please clean the data manually in the `students` table.';
+        } else {
+            $pdo->exec("ALTER TABLE students ADD UNIQUE KEY `mobile` (`mobile`)");
+            $autoMessages[] = '&#10003; Added missing `UNIQUE` index to `mobile` column.';
+        }
+    }
+
     // Run all DDL statements (CREATE TABLE IF NOT EXISTS + INSERT IGNORE — safe to repeat)
     $statements = [
         // Students
@@ -39,10 +62,11 @@ try {
             first_name          VARCHAR(100) NOT NULL,
             middle_name         VARCHAR(100) DEFAULT NULL,
             email               VARCHAR(191) NOT NULL UNIQUE,
-            mobile              VARCHAR(20)  NOT NULL,
+            mobile              VARCHAR(20)  NOT NULL UNIQUE,
             gender              ENUM('Male','Female') NOT NULL,
             school_name         VARCHAR(200) NOT NULL,
             grade_level         VARCHAR(50)  NOT NULL,
+            interested_booth_id TINYINT UNSIGNED DEFAULT NULL,
             qr_token            CHAR(64)     NOT NULL UNIQUE,
             registered_at       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
             completed_at        DATETIME     DEFAULT NULL,
@@ -63,7 +87,7 @@ try {
             ('COE', 'College of Engineering', 1),
             ('CAS', 'College of Arts and Sciences', 2),
             ('CBAHM', 'College of Business, Accountancy, and Hospitality Management', 3),
-            ('COED', 'College of Education', 4),
+            ('CEDU', 'College of Education', 4),
             ('CON', 'College of Nursing', 5),
             ('CICT', 'College of Information and Communications Technology', 6),
             ('CCJE', 'College of Criminal Justice Education', 7),
