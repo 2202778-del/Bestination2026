@@ -7,9 +7,8 @@ define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 // ─── Application ──────────────────────────────────────────────────────────────
-define('BASE_URL', 'http://localhost/Bestination2026');
 // TODO: Change this to your live domain before deployment
-
+define('BASE_URL', 'http://localhost/Bestination2026');
 define('BASE_PATH', dirname(__DIR__));
 define('QR_CODES_DIR', BASE_PATH . '/qr_codes/');
 define('TOTAL_BOOTHS', 9);

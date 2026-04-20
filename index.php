@@ -232,7 +232,7 @@ try {
         </div>
         <div class="stat-item">
             <div class="icon-flat flat-primary flat-sm" style="margin: 0 auto 8px;"><i class="bi bi-building"></i></div>
-            <div class="stat-num">9</div>
+            <div class="stat-num"><?= TOTAL_BOOTHS ?></div>
             <div class="stat-lbl">Colleges</div>
         </div>
     </div>

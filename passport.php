@@ -82,7 +82,7 @@ try {
     <!-- Header -->
     <div class="passport-header <?= $completed ? 'completed' : '' ?>">
         <div class="event-logo small" style="margin-bottom: 8px; justify-content: center; flex-direction: column;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
+            <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
             <div class="logo-text">
                 <span class="logo-main" style="color: #862334;">BESTINATION</span>
                 <span class="logo-year">2026</span>

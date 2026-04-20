@@ -192,7 +192,7 @@ function build_completion_html(array $s, array $scans): string {
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
   <tr><td style="background:linear-gradient(135deg,#862334,#a82d47);padding:40px 30px;text-align:center;">
-    <div style="width: 80px; height: 80px; margin: 0 auto 15px; background: #FFC553; color: #862334; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: bold;"><i class="bi bi-check-circle-fill"></i></div>
+    <img src="{$logoSrc}" alt="UB Logo" width="120" style="display:block;margin:0 auto 20px;height:auto;">
     <h1 style="color:#FFC553;margin:0;font-size:28px;letter-spacing:1px;">MISSION COMPLETE!</h1>
     <p style="color:#fff;margin:8px 0 0;font-size:16px;">UBBC Bestination 2026</p>
   </td></tr>

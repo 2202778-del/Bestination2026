@@ -4,7 +4,9 @@
 :root {
     /* ─── University of Batangas System Colors ──── */
     --success:        #6FCF97;
+    --success-rgb:    111, 207, 151;
     --warning:        #F2994A;
+    --warning-rgb:    242, 153, 74;
     --error:          #DC1500;
     --accent:         #0880AE;
     --disabled:       #D8D8D8;
