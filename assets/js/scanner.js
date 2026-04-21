@@ -28,13 +28,6 @@
 
         if (resultTimeout) clearTimeout(resultTimeout);
 
-        // Special handling for connection error to make it persistent
-        if (type === 'error' && title === 'Connection Error') {
-            resultEl.classList.add('result-connection-error');
-            // Don't auto-hide. User must click to dismiss.
-            return;
-        }
-
         const delay = type === 'success' || type === 'complete' ? 2000 : 3000; // Faster hide for toast
         resultTimeout = setTimeout(hideResult, delay);
     }
@@ -74,26 +67,9 @@
             if (data.status === 'success') {
                 sessionCount++;
                 if (countEl) countEl.textContent = sessionCount;
-
-                if (data.just_completed || data.completed) {
-                    showResult(
-                        'complete',
-                        '<i class="bi bi-patch-check-fill"></i>',
-                        'MISSION COMPLETE!',
-                        data.student_name,
-                        data.booth_name + ' ✓',
-                        data.scan_count + '/' + TOTAL_BOOTHS + ' Booths Visited!'
-                    );
-                } else {
-                    showResult(
-                        'success',
-                        '<i class="bi bi-check-circle"></i>',
-                        'Visit Logged!',
-                        data.student_name,
-                        BOOTH_NAME,
-                        data.scan_count + ' / ' + TOTAL_BOOTHS + ' booths visited'
-                    );
-                }
+                // On successful scan, do not show the modal/toast.
+                // Immediately reset the state to allow for the next scan.
+                hideResult();
             } else if (data.status === 'duplicate') {
                 showResult(
                     'duplicate',

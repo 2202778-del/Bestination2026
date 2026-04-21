@@ -31,8 +31,8 @@ function verify_csrf(string $token): bool {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-function passport_url(string $token): string {
-    return BASE_URL . '/passport.php?token=' . urlencode($token);
+function passport_url(string $token, string $baseUrl = BASE_URL): string {
+    return $baseUrl . '/passport.php?token=' . urlencode($token);
 }
 
 function format_datetime(string $datetime): string {

@@ -4,10 +4,17 @@ require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/db.php';
 require_once dirname(__DIR__) . '/includes/functions.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 // Ensure booth is selected
 $boothId = (int) ($_SESSION['operator_booth_id'] ?? 0);
 if (!$boothId) {
-    redirect(BASE_URL . '/booth/index.php');
+    redirect($LiveBaseUrl . '/booth/index.php');
 }
 
 try {
@@ -16,7 +23,7 @@ try {
     $stmt->execute([$boothId]);
     $booth = $stmt->fetch();
     if (!$booth) {
-        redirect(BASE_URL . '/booth/index.php');
+        redirect($LiveBaseUrl . '/booth/index.php');
     }
 } catch (PDOException $e) {
     die('Database error.');
@@ -43,9 +50,9 @@ $icon = $boothIcons[$booth['code']] ?? 'bi-building';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
     <title><?= sanitize($booth['name']) ?> Scanner — Bestination 2026</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/booth.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/main.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/booth.css">
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>
 <body class="booth-scan-page">
@@ -54,13 +61,13 @@ $icon = $boothIcons[$booth['code']] ?? 'bi-building';
     <!-- Booth Identity -->
     <div class="scan-header">
         <div class="scan-booth-badge" style="align-items: center;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-sm" style="margin: 0 16px 0 0; height: 40px;">
+            <img src="<?= $LiveBaseUrl ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-sm" style="margin: 0 16px 0 0; height: 40px;">
             <div>
                 <div class="scan-booth-name"><?= sanitize($booth['name']) ?></div>
                 <div class="scan-booth-label">Scanning Mode Active</div>
             </div>
         </div>
-        <a href="<?= BASE_URL ?>/booth/index.php" class="change-booth-btn" onclick="return confirm('Switch booth?')">Change Booth</a>
+        <a href="<?= $LiveBaseUrl ?>/booth/index.php" class="change-booth-btn" onclick="return confirm('Switch booth?')">Change Booth</a>
     </div>
 
     <!-- Result Display (shown after scan) -->
@@ -86,9 +93,9 @@ $icon = $boothIcons[$booth['code']] ?? 'bi-building';
 
 <script>
     const BOOTH_ID    = <?= $boothId ?>;
-    const SCAN_API    = '<?= BASE_URL ?>/api/submit_scan.php';
+    const SCAN_API    = '<?= $LiveBaseUrl ?>/api/submit_scan.php';
     const BOOTH_NAME  = '<?= addslashes(sanitize($booth['name'])) ?>';
 </script>
-<script src="<?= BASE_URL ?>/assets/js/scanner.js"></script>
+<script src="<?= $LiveBaseUrl ?>/assets/js/scanner.js"></script>
 </body>
 </html>

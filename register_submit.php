@@ -6,15 +6,22 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/qr_helper.php';
 require_once __DIR__ . '/includes/mailer.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirect(BASE_URL . '/register.php');
+    redirect($LiveBaseUrl . '/register.php');
 }
 
 // CSRF check
 if (!verify_csrf($_POST['csrf_token'] ?? '')) {
     $_SESSION['reg_errors'] = ['Invalid form submission. Please try again.'];
-    redirect(BASE_URL . '/register.php');
+    redirect($LiveBaseUrl . '/register.php');
 }
 
 // Check registration open
@@ -69,7 +76,7 @@ if (empty($fields['interested_booth_id'])) {
 if (!empty($errors)) {
     $_SESSION['reg_errors'] = $errors;
     $_SESSION['reg_old']    = $fields;
-    redirect(BASE_URL . '/register.php');
+    redirect($LiveBaseUrl . '/register.php');
 }
 
 // ─── Check duplicate email ────────────────────────────────────────────────────
@@ -81,7 +88,7 @@ try {
 
     if ($existing) {
         // Resend to existing student's passport page
-        redirect(BASE_URL . '/passport.php?token=' . urlencode($existing['qr_token']) . '&dup=1');
+        redirect($LiveBaseUrl . '/passport.php?token=' . urlencode($existing['qr_token']) . '&dup=1');
     }
 
     // ─── Generate token & insert student ─────────────────────────────────────
@@ -107,11 +114,11 @@ try {
     $studentId = (int) $db->lastInsertId();
 
     // ─── Generate QR code image ───────────────────────────────────────────────
-    generate_qr($token);
+    generate_qr($token, $LiveBaseUrl);
 
     // ─── Send registration email ──────────────────────────────────────────────
     $student = array_merge($fields, ['id' => $studentId, 'qr_token' => $token]);
-    $sent = send_registration_email($student);
+    $sent = send_registration_email($student, $LiveBaseUrl);
     if ($sent) {
         $db->prepare('UPDATE students SET email_sent = 1 WHERE id = ?')->execute([$studentId]);
     } else {
@@ -119,7 +126,7 @@ try {
     }
 
     // ─── Redirect to passport page ────────────────────────────────────────────
-    redirect(BASE_URL . '/passport.php?token=' . urlencode($token));
+    redirect($LiveBaseUrl . '/passport.php?token=' . urlencode($token));
 
 } catch (PDOException $e) {
     // Check for specific error codes to provide better user feedback.
@@ -130,7 +137,7 @@ try {
         $stmt = $db->prepare('SELECT qr_token FROM students WHERE email = ?');
         $stmt->execute([$fields['email']]);
         if ($existing = $stmt->fetch()) {
-            redirect(BASE_URL . '/passport.php?token=' . urlencode($existing['qr_token']) . '&dup=1');
+            redirect($LiveBaseUrl . '/passport.php?token=' . urlencode($existing['qr_token']) . '&dup=1');
         }
 
         // Check if it was a duplicate mobile number
@@ -139,7 +146,7 @@ try {
         if ($stmt->fetch()) {
             $_SESSION['reg_errors'] = ['This mobile number has already been registered. Please use a different one.'];
             $_SESSION['reg_old']    = $fields;
-            redirect(BASE_URL . '/register.php');
+            redirect($LiveBaseUrl . '/register.php');
         }
     }
 
@@ -147,5 +154,5 @@ try {
     error_log('Registration DB error: ' . $e->getMessage());
     $_SESSION['reg_errors'] = ['A system error occurred. Please try again.'];
     $_SESSION['reg_old']    = $fields;
-    redirect(BASE_URL . '/register.php');
+    redirect($LiveBaseUrl . '/register.php');
 }

@@ -43,8 +43,8 @@ function create_qr_code_file(string $url, string $filePath, int $pixelSize = 8, 
  * Generate a QR code PNG for the given student token.
  * Saves to qr_codes/{token}.png and returns the file path.
  */
-function generate_qr(string $token): string {
-    $url      = BASE_URL . '/passport.php?token=' . urlencode($token);
+function generate_qr(string $token, string $baseUrl = BASE_URL): string {
+    $url      = $baseUrl . '/passport.php?token=' . urlencode($token);
     $filePath = QR_CODES_DIR . $token . '.png';
     create_qr_code_file($url, $filePath, 8, 2);
     return $filePath;
@@ -71,6 +71,6 @@ function generate_placeholder_qr(string $filePath, string $url): bool {
     return $success;
 }
 
-function qr_image_url(string $token): string {
-    return BASE_URL . '/qr_codes/' . $token . '.png';
+function qr_image_url(string $token, string $baseUrl = BASE_URL): string {
+    return $baseUrl . '/qr_codes/' . $token . '.png';
 }

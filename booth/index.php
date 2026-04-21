@@ -4,6 +4,13 @@ require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/db.php';
 require_once dirname(__DIR__) . '/includes/functions.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 $error = '';
 
 // Handle booth selection
@@ -11,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $boothId = (int) ($_POST['booth_id'] ?? 0);
     if ($boothId >= 1 && $boothId <= 9) {
         $_SESSION['operator_booth_id'] = $boothId;
-        redirect(BASE_URL . '/booth/scan.php');
+        redirect($LiveBaseUrl . '/booth/scan.php');
     } else {
         $error = 'Please select a valid booth.';
     }
@@ -46,16 +53,16 @@ $boothIcons = [
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
     <title>Booth Operator — UBBC Bestination 2026</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/booth.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/main.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/booth.css">
 </head>
 <body class="booth-page">
 
 <div class="booth-select-container">
     <div class="booth-select-header">
         <div class="event-logo small" style="margin-bottom: 8px; justify-content: center; flex-direction: column;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px; height: 56px;">
+            <img src="<?= $LiveBaseUrl ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px; height: 56px;">
             <div class="logo-text">
                 <span class="logo-main">BESTINATION</span>
                 <span class="logo-year">2026</span>
@@ -83,7 +90,7 @@ $boothIcons = [
     </form>
 
     <div class="booth-admin-link">
-        <a href="<?= BASE_URL ?>/admin/login.php">Admin Panel</a>
+        <a href="<?= $LiveBaseUrl ?>/admin/login.php">Admin Panel</a>
     </div>
 </div>
 

@@ -4,6 +4,16 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+// This detects the actual server address to ensure links and assets work on a live server,
+// even if BASE_URL in config.php is set to 'localhost'.
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+// Derive the web path from the filesystem path
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 // Check if registration is open
 $regOpen = get_setting('registration_open', '1');
 
@@ -31,9 +41,9 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <title>Register — UBBC Bestination 2026</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/register.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/main.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/register.css">
 </head>
 <body class="register-page">
 
@@ -41,7 +51,7 @@ try {
     <!-- Header -->
     <div class="register-header">
         <div class="event-logo" style="margin-bottom: 8px; justify-content: center; flex-direction: column;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
+            <img src="<?= $LiveBaseUrl ?>/assets/img/ub-logo-full.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
             <div class="logo-text">
                 <span class="logo-main">BESTINATION</span>
                 <span class="logo-year">2026</span>
@@ -66,7 +76,7 @@ try {
     </div>
     <?php endif; ?>
 
-    <form id="registerForm" action="<?= BASE_URL ?>/register_submit.php" method="POST" novalidate>
+    <form id="registerForm" action="<?= $LiveBaseUrl ?>/register_submit.php" method="POST" novalidate>
         <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
 
         <div class="form-row form-row-2">
@@ -152,6 +162,6 @@ try {
     </div>
 </div>
 
-<script src="<?= BASE_URL ?>/assets/js/register.js"></script>
+<script src="<?= $LiveBaseUrl ?>/assets/js/register.js"></script>
 </body>
 </html>

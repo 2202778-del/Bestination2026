@@ -4,13 +4,22 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/qr_helper.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+// This detects the actual server address to ensure QR codes and links work on a live server,
+// even if BASE_URL in config.php is set to 'localhost'.
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+// Derive the web path from the filesystem path
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 // Generate the registration QR (pointing to register.php)
-$regUrl     = BASE_URL . '/register.php';
+$regUrl     = $LiveBaseUrl . '/register.php';
 $regQrFile  = QR_CODES_DIR . 'registration_qr.png';
-$regQrUrl   = BASE_URL . '/qr_codes/registration_qr.png';
+$regQrUrl   = $LiveBaseUrl . '/qr_codes/registration_qr.png';
 
 // Generate registration QR using the centralized helper function.
-// This avoids code duplication and resolves linter warnings about the QRcode class.
 create_qr_code_file($regUrl, $regQrFile, 10, 4);
 
 // Live count
@@ -28,8 +37,8 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>UBBC Bestination 2026 — Registration</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/main.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/animations.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -198,7 +207,7 @@ try {
 
 <div class="landing-card">
     <div class="landing-logo" style="flex-direction: column; text-align: center; margin-bottom: 24px;">
-        <img src="<?= BASE_URL ?>/assets/img/ub-logo-full.png" alt="University of Batangas Logo" class="logo-image-lg" style="max-height: 100px; margin-bottom: 16px;">
+        <img src="<?= $LiveBaseUrl ?>/assets/img/ub-logo-full.png" alt="University of Batangas Logo" class="logo-image-lg" style="max-height: 100px; margin-bottom: 16px;">
         <span class="logo-main">BESTINATION</span>
         <span class="logo-year">2026</span>
     </div>
@@ -239,15 +248,15 @@ try {
 
     <div class="footer-note">
         University of Batangas &bull; UBBC Bestination 2026<br>
-        <a href="<?= BASE_URL ?>/admin/login.php">Admin</a> &bull;
-        <a href="<?= BASE_URL ?>/booth/index.php">Booth Operator</a>
+        <a href="<?= $LiveBaseUrl ?>/admin/login.php">Admin</a> &bull;
+        <a href="<?= $LiveBaseUrl ?>/booth/index.php">Booth Operator</a>
     </div>
 </div>
 
 <script>
 // Auto-refresh registration count every 30 seconds
 setInterval(function() {
-    fetch('<?= BASE_URL ?>/api/dashboard_data.php')
+    fetch('<?= $LiveBaseUrl ?>/api/dashboard_data.php')
         .then(function(r) { return r.json(); })
         .then(function(d) {
             if (d.total_registered !== undefined) {

@@ -4,6 +4,13 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/qr_helper.php';
 
+// --- START DYNAMIC BASE_URL LOGIC ---
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
+$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
+// --- END DYNAMIC BASE_URL LOGIC ---
+
 $token = trim($_GET['token'] ?? '');
 $isDup  = isset($_GET['dup']);
 
@@ -55,8 +62,8 @@ try {
     ];
 
     // Ensure QR exists
-    generate_qr($token);
-    $qrUrl = qr_image_url($token);
+    generate_qr($token, $LiveBaseUrl);
+    $qrUrl = qr_image_url($token, $LiveBaseUrl);
 
 } catch (PDOException $e) {
     error_log('Passport load error: ' . $e->getMessage());
@@ -71,9 +78,9 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
     <title>My Passport — UBBC Bestination 2026</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/animations.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/passport.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/main.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/animations.css">
+    <link rel="stylesheet" href="<?= $LiveBaseUrl ?>/assets/css/passport.css">
 </head>
 <body class="passport-page">
 
@@ -82,7 +89,7 @@ try {
     <!-- Header -->
     <div class="passport-header <?= $completed ? 'completed' : '' ?>">
         <div class="event-logo small" style="margin-bottom: 8px; justify-content: center; flex-direction: column;">
-            <img src="<?= BASE_URL ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
+            <img src="<?= $LiveBaseUrl ?>/assets/img/ub-logo-white.png" alt="UB Logo" class="logo-image-md" style="margin: 0 auto 12px;">
             <div class="logo-text">
                 <span class="logo-main" style="color: #862334;">BESTINATION</span>
                 <span class="logo-year">2026</span>
@@ -103,7 +110,7 @@ try {
         <div class="icon-flat flat-primary flat-lg"><i class="bi bi-check-circle-fill"></i></div>
         <h3>Mission Complete!</h3>
         <p>You visited all 9 booths on <?= date('F j, Y', strtotime($student['completed_at'])) ?>!</p>
-        <a href="<?= BASE_URL ?>/certificate.php?token=<?= urlencode($token) ?>" target="_blank" class="btn btn-primary btn-sm" style="margin-top: 16px;">
+        <a href="<?= $LiveBaseUrl ?>/certificate.php?token=<?= urlencode($token) ?>" target="_blank" class="btn btn-primary btn-sm" style="margin-top: 16px;">
             <i class="bi bi-download"></i> Download Certificate
         </a>
     </div>
@@ -162,9 +169,9 @@ try {
 
 <script>
     const PASSPORT_TOKEN = '<?= addslashes($token) ?>';
-    const PROGRESS_API   = '<?= BASE_URL ?>/api/progress.php';
+    const PROGRESS_API   = '<?= $LiveBaseUrl ?>/api/progress.php';
     const TOTAL_BOOTHS   = <?= TOTAL_BOOTHS ?>;
 </script>
-<script src="<?= BASE_URL ?>/assets/js/passport.js"></script>
+<script src="<?= $LiveBaseUrl ?>/assets/js/passport.js"></script>
 </body>
 </html>
