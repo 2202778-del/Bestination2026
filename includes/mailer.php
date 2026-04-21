@@ -176,6 +176,8 @@ function build_completion_html(array $s, array $scans, int $totalBooths, string 
         $scanRows .= "<tr><td style='padding:8px 12px;'>&#10003;</td><td style='padding:8px 12px;color:#333;'>{$boothName}</td><td style='padding:8px 12px;color:#666;font-size:12px;'>{$time}</td></tr>";
     }
     $logoSrc = 'cid:ub_logo';
+    $passportLink = $baseUrl . '/passport.php?token=' . urlencode($s['qr_token']);
+
     return <<<HTML
 <!DOCTYPE html>
 <html>
