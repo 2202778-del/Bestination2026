@@ -40,6 +40,13 @@ try {
         $autoMessages[] = '&#10003; Added missing column `interested_booth_id` to `students` table.';
     }
 
+    // Check for is_active in booths table
+    $colCheck = $pdo->query("SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$dbName}' AND TABLE_NAME = 'booths' AND COLUMN_NAME = 'is_active' LIMIT 1");
+    if ($colCheck && $colCheck->fetch() === false) {
+        $pdo->exec("ALTER TABLE booths ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1 AFTER sort_order");
+        $autoMessages[] = '&#10003; Added missing column `is_active` to `booths` table.';
+    }
+
     // Check for UNIQUE constraint on mobile
     $idxCheck = $pdo->query("SELECT 1 FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = '{$dbName}' AND TABLE_NAME = 'students' AND INDEX_NAME = 'mobile' LIMIT 1");
     if ($idxCheck && $idxCheck->fetch() === false) {
@@ -79,7 +86,8 @@ try {
             id         TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             code       VARCHAR(10)  NOT NULL UNIQUE,
             name       VARCHAR(150) NOT NULL,
-            sort_order TINYINT UNSIGNED NOT NULL DEFAULT 0
+            sort_order TINYINT UNSIGNED NOT NULL DEFAULT 0,
+            is_active  TINYINT(1) NOT NULL DEFAULT 1
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
 
         // Booth seed data (INSERT IGNORE = skip if already exists)
@@ -180,6 +188,10 @@ try {
 } catch (PDOException $e) {}
 
 $allDone = $dbReady && $passIsSet;
+
+// Use dynamic URL for quick links
+require_once __DIR__ . '/includes/functions.php';
+$LiveBaseUrl = get_dynamic_base_url();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -529,10 +541,10 @@ define('BASE_URL',          'http://localhost/Bestination2026');</pre>
         <h2>Setup Complete!</h2>
         <p>The system is ready to use. Remember to delete <code>setup.php</code> from your server before the event!</p>
         <div class="quick-links">
-            <a href="http://localhost/Bestination2026/" class="quick-link"><i class="bi bi-house-door-fill"></i> Landing Page</a>
-            <a href="http://localhost/Bestination2026/register.php" class="quick-link"><i class="bi bi-pencil-square"></i> Registration</a>
-            <a href="http://localhost/Bestination2026/booth/index.php" class="quick-link"><i class="bi bi-qr-code-scan"></i> Booth Scanner</a>
-            <a href="http://localhost/Bestination2026/admin/login.php" class="quick-link"><i class="bi bi-shield-lock-fill"></i> Admin Panel</a>
+            <a href="<?= $LiveBaseUrl ?>/" class="quick-link"><i class="bi bi-house-door-fill"></i> Landing Page</a>
+            <a href="<?= $LiveBaseUrl ?>/register.php" class="quick-link"><i class="bi bi-pencil-square"></i> Registration</a>
+            <a href="<?= $LiveBaseUrl ?>/booth/index.php" class="quick-link"><i class="bi bi-qr-code-scan"></i> Booth Scanner</a>
+            <a href="<?= $LiveBaseUrl ?>/admin/login.php" class="quick-link"><i class="bi bi-shield-lock-fill"></i> Admin Panel</a>
         </div>
     </div>
     <?php endif; ?>

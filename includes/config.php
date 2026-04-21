@@ -9,8 +9,12 @@ define('DB_CHARSET', 'utf8mb4');
 // ─── Application ──────────────────────────────────────────────────────────────
 // TODO: Change this to your live domain before deployment
 define('BASE_URL', 'http://localhost/Bestination2026');
-define('BASE_PATH', dirname(__DIR__));
-define('QR_CODES_DIR', BASE_PATH . '/qr_codes/');
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__));
+}
+if (!defined('QR_CODES_DIR')) {
+    define('QR_CODES_DIR', BASE_PATH . '/qr_codes/');
+}
 define('TOTAL_BOOTHS', 9);
 
 // ─── SMTP (PHPMailer) ─────────────────────────────────────────────────────────

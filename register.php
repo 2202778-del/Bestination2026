@@ -20,7 +20,7 @@ $gradeOptions = ['Grade 11', 'Grade 12'];
 // Load booths for the interest dropdown
 try {
     $db = get_db();
-    $booths = $db->query('SELECT id, name FROM booths ORDER BY sort_order')->fetchAll();
+    $booths = $db->query('SELECT id, name FROM booths WHERE is_active = 1 ORDER BY sort_order')->fetchAll();
 } catch (Exception $e) {
     $booths = []; // Gracefully fail if DB is not ready
 }

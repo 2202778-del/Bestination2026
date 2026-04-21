@@ -30,7 +30,7 @@ if (!$token || strlen($token) !== 64 || !ctype_xdigit($token)) {
     echo json_encode(['status' => 'error', 'message' => 'Invalid QR code']);
     exit;
 }
-if ($boothId < 1 || $boothId > 9) {
+if ($boothId < 1) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Invalid booth']);
     exit;
@@ -38,6 +38,18 @@ if ($boothId < 1 || $boothId > 9) {
 
 try {
     $db = get_db();
+
+    // Check if booth is active before proceeding
+    $boothCheckStmt = $db->prepare('SELECT id FROM booths WHERE id = ? AND is_active = 1');
+    $boothCheckStmt->execute([$boothId]);
+    if ($boothCheckStmt->fetch() === false) {
+        http_response_code(400);
+        echo json_encode(['status' => 'error', 'message' => 'This booth is not currently active.']);
+        exit;
+    }
+
+    // Get total active booths count for completion check
+    $totalActiveBooths = (int) $db->query('SELECT COUNT(*) FROM booths WHERE is_active = 1')->fetchColumn();
 
     // Look up student by QR token
     $stmt = $db->prepare('SELECT * FROM students WHERE qr_token = ?');
@@ -87,7 +99,7 @@ try {
     $justCompleted = false;
 
     // Check for completion (all 9 booths)
-    if ($scanCount >= TOTAL_BOOTHS && !$student['complete_email_sent']) {
+    if ($totalActiveBooths > 0 && $scanCount >= $totalActiveBooths && !$student['complete_email_sent']) {
         // Atomic update — only one process wins
         $updateStmt = $db->prepare(
             'UPDATE students SET completed_at = NOW(), complete_email_sent = 1
@@ -124,13 +136,13 @@ try {
         'status'        => 'success',
         'student_name'  => $studentName,
         'scan_count'    => $scanCount,
-        'total_booths'  => TOTAL_BOOTHS,
-        'completed'     => $scanCount >= TOTAL_BOOTHS,
+        'total_booths'  => $totalActiveBooths,
+        'completed'     => $totalActiveBooths > 0 && $scanCount >= $totalActiveBooths,
         'just_completed'=> $justCompleted,
         'booth_name'    => $boothName,
         'message'       => $justCompleted
-            ? "MISSION COMPLETE! {$studentName} has visited all " . TOTAL_BOOTHS . " booths!"
-            : "Visit logged! ({$scanCount}/" . TOTAL_BOOTHS . " booths)",
+            ? "MISSION COMPLETE! {$studentName} has visited all " . $totalActiveBooths . " booths!"
+            : "Visit logged! ({$scanCount}/" . $totalActiveBooths . " booths)",
     ]);
 
 } catch (PDOException $e) {

@@ -17,7 +17,9 @@ try {
     $stmt = $db->prepare('SELECT * FROM booths WHERE id = ?');
     $stmt->execute([$boothId]);
     $booth = $stmt->fetch();
-    if (!$booth) {
+    // If booth doesn't exist or is not active, redirect.
+    if (!$booth || empty($booth['is_active'])) {
+        unset($_SESSION['operator_booth_id']); // Clear invalid session
         redirect($LiveBaseUrl . '/booth/index.php');
     }
 } catch (PDOException $e) {

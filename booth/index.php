@@ -11,18 +11,21 @@ $error = '';
 // Handle booth selection
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $boothId = (int) ($_POST['booth_id'] ?? 0);
-    if ($boothId >= 1 && $boothId <= 9) {
+    // Validate against the database to ensure it's a valid and active booth
+    $stmt = get_db()->prepare('SELECT id FROM booths WHERE id = ? AND is_active = 1');
+    $stmt->execute([$boothId]);
+    if ($stmt->fetch()) {
         $_SESSION['operator_booth_id'] = $boothId;
         redirect($LiveBaseUrl . '/booth/scan.php');
     } else {
-        $error = 'Please select a valid booth.';
+        $error = 'Please select a valid and active booth.';
     }
 }
 
 // Load booths
 try {
     $db = get_db();
-    $booths = $db->query('SELECT * FROM booths ORDER BY sort_order')->fetchAll();
+    $booths = $db->query('SELECT * FROM booths WHERE is_active = 1 ORDER BY sort_order')->fetchAll();
 } catch (PDOException $e) {
     exit('Database error. Please ensure setup has been run.');
 }

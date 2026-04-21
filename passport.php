@@ -166,7 +166,7 @@ try {
 <script>
     const PASSPORT_TOKEN = '<?= addslashes($token) ?>';
     const PROGRESS_API   = '<?= $LiveBaseUrl ?>/api/progress.php';
-    const TOTAL_BOOTHS   = <?= $totalActiveActiveBooths ?>;
+    const TOTAL_BOOTHS   = <?= $totalActiveBooths ?>;
 </script>
 <script src="<?= $LiveBaseUrl ?>/assets/js/passport.js"></script>
 </body>

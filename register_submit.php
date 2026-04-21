@@ -60,10 +60,10 @@ if (empty($fields['interested_booth_id'])) {
 } else {
     try {
         $db = get_db();
-        $stmt = $db->prepare('SELECT id FROM booths WHERE id = ?');
+        $stmt = $db->prepare('SELECT id FROM booths WHERE id = ? AND is_active = 1');
         $stmt->execute([$fields['interested_booth_id']]);
         if ($stmt->fetch() === false) {
-            $errors[] = 'Please select a valid college program.';
+            $errors[] = 'The selected college program is not available. Please choose another one.';
         }
     } catch (Exception $e) { /* Ignore DB error during validation */ }
 }
