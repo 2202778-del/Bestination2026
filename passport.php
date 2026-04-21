@@ -26,8 +26,9 @@ try {
         exit('Passport not found.');
     }
 
-    // Load all booths
-    $booths = $db->query('SELECT * FROM booths ORDER BY sort_order')->fetchAll();
+    // Load all active booths
+    $booths = $db->query('SELECT * FROM booths WHERE is_active = 1 ORDER BY sort_order')->fetchAll();
+    $totalActiveBooths = count($booths);
 
     // Load this student's scans
     $scanStmt = $db->prepare('SELECT booth_id, scanned_at FROM scans WHERE student_id = ?');
@@ -39,7 +40,7 @@ try {
         $visitedBooths[$s['booth_id']] = $s['scanned_at'];
     }
 
-    $scanCount = count($visitedBooths);
+    $scanCount = count($visitedBooths); // This counts all visits, but progress is vs active booths.
     $completed = $student['completed_at'] !== null;
     $fullName  = sanitize($student['first_name'] . ' ' . $student['last_name']);
 
@@ -104,7 +105,7 @@ try {
     <div class="completion-banner">
         <div class="icon-flat flat-primary flat-lg"><i class="bi bi-check-circle-fill"></i></div>
         <h3>Mission Complete!</h3>
-        <p>You visited all 9 booths on <?= date('F j, Y', strtotime($student['completed_at'])) ?>!</p>
+        <p>You visited all <?= $totalActiveBooths ?> participating booths on <?= date('F j, Y', strtotime($student['completed_at'])) ?>!</p>
         <a href="<?= $LiveBaseUrl ?>/certificate.php?token=<?= urlencode($token) ?>" target="_blank" class="btn btn-primary btn-sm" style="margin-top: 16px;">
             <i class="bi bi-download"></i> Download Certificate
         </a>
@@ -122,10 +123,10 @@ try {
     <div class="progress-section">
         <div class="progress-header">
             <span class="progress-label">Booth Progress</span>
-            <span class="progress-count" id="progressCount"><?= $scanCount ?> / <?= TOTAL_BOOTHS ?></span>
+            <span class="progress-count" id="progressCount"><?= $scanCount ?> / <?= $totalActiveBooths ?></span>
         </div>
         <div class="progress-bar-wrap">
-            <div class="progress-bar" id="progressBar" style="width: <?= round(($scanCount / TOTAL_BOOTHS) * 100) ?>%"></div>
+            <div class="progress-bar" id="progressBar" style="width: <?= $totalActiveBooths > 0 ? round(($scanCount / $totalActiveBooths) * 100) : 0 ?>%"></div>
         </div>
     </div>
 
@@ -165,7 +166,7 @@ try {
 <script>
     const PASSPORT_TOKEN = '<?= addslashes($token) ?>';
     const PROGRESS_API   = '<?= $LiveBaseUrl ?>/api/progress.php';
-    const TOTAL_BOOTHS   = <?= TOTAL_BOOTHS ?>;
+    const TOTAL_BOOTHS   = <?= $totalActiveActiveBooths ?>;
 </script>
 <script src="<?= $LiveBaseUrl ?>/assets/js/passport.js"></script>
 </body>

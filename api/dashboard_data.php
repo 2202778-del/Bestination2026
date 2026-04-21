@@ -23,6 +23,7 @@ try {
     }
 
     // ─── Full admin data ──────────────────────────────────────────────────────
+    $totalActiveBooths = (int) $db->query('SELECT COUNT(*) FROM booths WHERE is_active = 1')->fetchColumn();
     $inProgress = (int) $db->query(
         'SELECT COUNT(DISTINCT s.student_id) FROM scans s
          JOIN students st ON st.id = s.student_id
@@ -67,6 +68,7 @@ try {
         'total_registered'  => $totalReg,
         'total_completed'   => $totalComp,
         'in_progress'       => $inProgress,
+        'total_active_booths' => $totalActiveBooths,
         'per_booth_counts'  => $perBooth,
         'recent_completions'=> $recentComp,
         'students_progress' => $allStudents,

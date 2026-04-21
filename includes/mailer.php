@@ -22,9 +22,9 @@ function send_registration_email(array $student, string $baseUrl = BASE_URL): bo
     return dispatch_email($student['email'], $student['first_name'] . ' ' . $student['last_name'], $subject, $html, $plain, $qrFile);
 }
 
-function send_completion_email(array $student, array $scans, string $baseUrl = BASE_URL): bool {
+function send_completion_email(array $student, array $scans, int $totalBooths, string $baseUrl = BASE_URL): bool {
     $subject = 'Mission Complete! Congratulations, ' . $student['first_name'] . '!';
-    $html = build_completion_html($student, $scans, $baseUrl);
+    $html = build_completion_html($student, $scans, $totalBooths, $baseUrl);
     $plain = build_completion_plain($student, $scans);
     return dispatch_email($student['email'], $student['first_name'] . ' ' . $student['last_name'], $subject, $html, $plain);
 }
@@ -165,7 +165,7 @@ function build_registration_plain(array $s, string $link): string {
     return "Hi {$s['first_name']}!\n\nYour Bestination 2026 registration is confirmed.\n\nVisit your passport page to view your QR code and track your booth progress:\n{$link}\n\nSee you at the event!\nUBBC Bestination 2026 Organizing Committee";
 }
 
-function build_completion_html(array $s, array $scans): string {
+function build_completion_html(array $s, array $scans, int $totalBooths, string $baseUrl): string {
     $fname = htmlspecialchars($s['first_name']);
     $name  = htmlspecialchars($s['first_name'] . ' ' . $s['last_name']);
     $completed = date('F j, Y g:i A', strtotime($s['completed_at'] ?? 'now'));
@@ -198,7 +198,7 @@ function build_completion_html(array $s, array $scans): string {
   </td></tr>
   <tr><td style="padding:40px 30px;text-align:center;">
     <h2 style="color:#862334;margin:0 0 8px;">Congratulations, {$fname}!</h2>
-    <p style="color:#555;line-height:1.6;margin:0 0 24px;">You have successfully visited all <strong>9 college booths</strong> of the University of Batangas!</p>
+    <p style="color:#555;line-height:1.6;margin:0 0 24px;">You have successfully visited all <strong>{$totalBooths} participating college booths</strong> of the University of Batangas!</p>
     <p style="color:#888;font-size:13px;margin:0 0 24px;">Completed on: <strong>{$completed}</strong></p>
     <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;margin-bottom:30px;">
       <tr style="background:#862334;"><td style="padding:10px 12px;color:#FFC553;font-weight:bold;font-size:13px;" colspan="3">Booths Visited</td></tr>

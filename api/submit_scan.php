@@ -111,7 +111,7 @@ try {
             $scanListStmt->execute([$student['id']]);
             $allScans = $scanListStmt->fetchAll();
 
-            send_completion_email($student, $allScans, $LiveBaseUrl);
+            send_completion_email($student, $allScans, $totalActiveBooths, $LiveBaseUrl);
         }
     }
 

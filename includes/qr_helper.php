@@ -9,10 +9,11 @@ require_once __DIR__ . '/config.php';
  * @param string $filePath The full path to save the PNG file.
  * @param int $pixelSize The pixel size of each module for phpqrcode.
  * @param int $margin The margin size in modules for phpqrcode.
+ * @param bool $force If true, will overwrite an existing file.
  * @return bool True if the file was created successfully (even placeholder).
  */
-function create_qr_code_file(string $url, string $filePath, int $pixelSize = 8, int $margin = 2): bool {
-    if (file_exists($filePath) && filesize($filePath) > 0) {
+function create_qr_code_file(string $url, string $filePath, int $pixelSize = 8, int $margin = 2, bool $force = false): bool {
+    if (!$force && file_exists($filePath) && filesize($filePath) > 0) {
         return true;
     }
 

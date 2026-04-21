@@ -33,10 +33,12 @@
                 return r.json();
             })
             .then(function(data) {
+                // The API should provide the active booth count. Fallback to TOTAL_BOOTHS constant or 9.
+                const totalBooths = data.total_active_booths || (typeof TOTAL_BOOTHS !== 'undefined' ? TOTAL_BOOTHS : 9);
                 updateStats(data);
                 updateBoothTable(data.per_booth_counts);
                 updateRecentCompletions(data.recent_completions);
-                updateProgressTable(data.students_progress);
+                updateProgressTable(data.students_progress, totalBooths);
                 updateLastUpdated();
                 secondsSinceUpdate = 0;
             })
@@ -95,7 +97,7 @@
         }).join('');
     }
 
-    function updateProgressTable(students) {
+    function updateProgressTable(students, totalBooths) {
         const tbody = document.getElementById('progressBody');
         if (!tbody || !students) return;
         tbody.innerHTML = students.map(function(s) {
@@ -112,7 +114,7 @@
                 '<td style="font-weight:600;">' + escHtml(s.full_name) + '</td>' +
                 '<td>' + escHtml(s.school) + '</td>' +
                 '<td>' + escHtml(s.grade) + '</td>' +
-                '<td class="td-center"><span class="booth-pill ' + pillClass + '">' + scanCount + '/' + TOTAL_BOOTHS + '</span></td>' +
+                '<td class="td-center"><span class="booth-pill ' + pillClass + '">' + scanCount + '/' + totalBooths + '</span></td>' +
                 '<td>' + badge + '</td>' +
                 '<td style="font-size:0.8rem;color:#888;">' + formatTime(s.registered_at) + '</td>' +
             '</tr>';

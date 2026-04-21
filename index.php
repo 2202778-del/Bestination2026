@@ -12,13 +12,15 @@ $regQrFile  = QR_CODES_DIR . 'registration_qr.png';
 $regQrUrl   = $LiveBaseUrl . '/qr_codes/registration_qr.png';
 
 // Generate registration QR using the centralized helper function.
-create_qr_code_file($regUrl, $regQrFile, 10, 4);
+create_qr_code_file($regUrl, $regQrFile, 10, 4, true); // Force regeneration to ensure it uses the live URL
 
 // Live count
 $totalReg = 0;
+$totalActiveBooths = TOTAL_BOOTHS; // Fallback
 try {
     $db = get_db();
     $totalReg = (int) $db->query('SELECT COUNT(*) FROM students')->fetchColumn();
+    $totalActiveBooths = (int) $db->query('SELECT COUNT(*) FROM booths WHERE is_active = 1')->fetchColumn();
 } catch (Exception $e) { /* DB not set up yet */ }
 ?>
 <!DOCTYPE html>
@@ -221,7 +223,7 @@ try {
     </div>
 
     <p class="booths-info">
-        Visit all <strong>9 college booths</strong> of the University of Batangas and collect your digital stamps!
+        Visit all <strong><?= $totalActiveBooths ?> college booths</strong> of the University of Batangas and collect your digital stamps!
         Get your QR passport scanned at each college booth to complete your mission.
     </p>
 
@@ -233,7 +235,7 @@ try {
         </div>
         <div class="stat-item">
             <div class="icon-flat flat-primary flat-sm" style="margin: 0 auto 8px;"><i class="bi bi-building"></i></div>
-            <div class="stat-num"><?= TOTAL_BOOTHS ?></div>
+            <div class="stat-num"><?= $totalActiveBooths ?></div>
             <div class="stat-lbl">Colleges</div>
         </div>
     </div>
