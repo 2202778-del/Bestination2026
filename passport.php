@@ -4,12 +4,7 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/qr_helper.php';
 
-// --- START DYNAMIC BASE_URL LOGIC ---
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
-$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
-// --- END DYNAMIC BASE_URL LOGIC ---
+$LiveBaseUrl = get_dynamic_base_url();
 
 $token = trim($_GET['token'] ?? '');
 $isDup  = isset($_GET['dup']);

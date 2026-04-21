@@ -6,12 +6,7 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/qr_helper.php';
 require_once __DIR__ . '/includes/mailer.php';
 
-// --- START DYNAMIC BASE_URL LOGIC ---
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', BASE_PATH);
-$LiveBaseUrl = rtrim($protocol . '://' . $host . str_replace('\\', '/', $path), '/');
-// --- END DYNAMIC BASE_URL LOGIC ---
+$LiveBaseUrl = get_dynamic_base_url();
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -26,7 +21,7 @@ if (!verify_csrf($_POST['csrf_token'] ?? '')) {
 
 // Check registration open
 if (get_setting('registration_open', '1') !== '1') {
-    redirect(BASE_URL . '/register.php');
+    redirect($LiveBaseUrl . '/register.php');
 }
 
 // ─── Collect & validate input ─────────────────────────────────────────────────

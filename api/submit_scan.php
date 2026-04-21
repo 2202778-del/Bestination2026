@@ -5,6 +5,9 @@ header('Cache-Control: no-cache, no-store');
 require_once dirname(__DIR__) . '/includes/config.php';
 require_once dirname(__DIR__) . '/includes/db.php';
 require_once dirname(__DIR__) . '/includes/mailer.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
+
+$LiveBaseUrl = get_dynamic_base_url();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -108,7 +111,7 @@ try {
             $scanListStmt->execute([$student['id']]);
             $allScans = $scanListStmt->fetchAll();
 
-            send_completion_email($student, $allScans);
+            send_completion_email($student, $allScans, $LiveBaseUrl);
         }
     }
 

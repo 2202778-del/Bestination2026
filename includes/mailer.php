@@ -10,11 +10,11 @@ if (is_dir($phpmailerPath)) {
     require_once $phpmailerPath . 'SMTP.php';
 }
 
-function send_registration_email(array $student): bool {
-    $qrFile = generate_qr($student['qr_token']);
+function send_registration_email(array $student, string $baseUrl = BASE_URL): bool {
+    $qrFile = generate_qr($student['qr_token'], $baseUrl);
 
     $subject = 'Your Bestination 2026 Passport is Ready, ' . $student['first_name'] . '!';
-    $passportLink = BASE_URL . '/passport.php?token=' . urlencode($student['qr_token']);
+    $passportLink = $baseUrl . '/passport.php?token=' . urlencode($student['qr_token']);
 
     $html = build_registration_html($student, $passportLink);
     $plain = build_registration_plain($student, $passportLink);
@@ -22,9 +22,9 @@ function send_registration_email(array $student): bool {
     return dispatch_email($student['email'], $student['first_name'] . ' ' . $student['last_name'], $subject, $html, $plain, $qrFile);
 }
 
-function send_completion_email(array $student, array $scans): bool {
+function send_completion_email(array $student, array $scans, string $baseUrl = BASE_URL): bool {
     $subject = 'Mission Complete! Congratulations, ' . $student['first_name'] . '!';
-    $html = build_completion_html($student, $scans);
+    $html = build_completion_html($student, $scans, $baseUrl);
     $plain = build_completion_plain($student, $scans);
     return dispatch_email($student['email'], $student['first_name'] . ' ' . $student['last_name'], $subject, $html, $plain);
 }
@@ -204,8 +204,13 @@ function build_completion_html(array $s, array $scans): string {
       <tr style="background:#862334;"><td style="padding:10px 12px;color:#FFC553;font-weight:bold;font-size:13px;" colspan="3">Booths Visited</td></tr>
       {$scanRows}
     </table>
-    <p style="color:#555;line-height:1.6;margin:0 0 24px;">Thank you for exploring everything UB has to offer. We hope to see you as a future Batangueno!</p>
-    <p style="color:#555;line-height:1.6;margin:0;">Your certificate of completion is now available for download from your passport page.</p>
+    <p style="color:#555;line-height:1.6;margin:0 0 24px;">Thank you for exploring everything UB has to offer. We hope you will become a future Batangueño!</p>
+    <p style="color:#555;line-height:1.6;margin:0 0 24px;">Your certificate of completion is now available. Click the button below to view your passport and download it.</p>
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center">
+      <a href="{$passportLink}" style="display:inline-block;background:#FFC553;color:#862334;font-weight:bold;padding:14px 32px;border-radius:8px;text-decoration:none;font-size:16px;">View Passport &amp; Certificate</a>
+    </td></tr>
+    </table>
   </td></tr>
   <tr><td style="background:#862334;padding:24px 30px;text-align:center;">
     <p style="color:#FFC553;font-weight:bold;margin:0 0 4px;">University of Batangas</p>
