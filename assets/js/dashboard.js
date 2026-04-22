@@ -42,8 +42,9 @@
                 updateLastUpdated();
                 secondsSinceUpdate = 0;
             })
-            .catch(function() {
-                // Silently fail — will retry
+            .catch(function(err) {
+                console.error('Dashboard API Error:', err);
+                // Error is logged, will retry on next interval.
             });
     }
 
@@ -57,10 +58,7 @@
         setText('statCompleted', completed);
         setText('statProgress',  progress);
         setText('statPct', total > 0 ? Math.round((completed / total) * 100) + '%' : '0%');
-
-        // Update "not started" stat card (4th card)
-        const cards = document.querySelectorAll('.stat-card .stat-value');
-        if (cards[3]) cards[3].textContent = notStart;
+        setText('statNotStarted', notStart);
     }
 
     function updateBoothTable(booths) {
@@ -100,6 +98,12 @@
     function updateProgressTable(students, totalBooths) {
         const tbody = document.getElementById('progressBody');
         if (!tbody || !students) return;
+
+        if (students.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No student data to display.</td></tr>';
+            return;
+        }
+
         tbody.innerHTML = students.map(function(s) {
             const completed  = s.completed;
             const scanCount  = s.scan_count;

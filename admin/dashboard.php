@@ -69,7 +69,7 @@ try {
         </div>
         <div class="stat-card">
             <div class="icon-flat flat-default"><i class="bi bi-hourglass-split"></i></div>
-            <div class="stat-value"><?= $totalReg - $totalComp - $inProgress > 0 ? $totalReg - $totalComp - $inProgress : 0 ?></div>
+            <div class="stat-value" id="statNotStarted"><?= max(0, $totalReg - $totalComp - $inProgress) ?></div>
             <div class="stat-label">Not Started</div>
         </div>
     </div>
